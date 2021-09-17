@@ -1,47 +1,53 @@
 return {
-    identity = {     
+    identity = {
+		name = "swordman",
         type = "character",
         subtype = "swordman",
         weight = 50,
     },
-    aic = {},
-    input = {
-        skillInputMap = {
-            SKILL_SHORTCUT_1 = "hopsmash",
-            SKILL_SHORTCUT_2 = "gorecross",
-            SKILL_SHORTCUT_3 = nil,
-            SKILL_SHORTCUT_4 = "tripleslash",
-            SKILL_SHORTCUT_5 = nil,
-            -- SKILL_SHORTCUT_6 = "frenzy",
-            SKILL_SHORTCUT_EX_1 = "upperslash",
-            SKILL_SHORTCUT_EX_2 = nil,
-            SKILL_SHORTCUT_EX_3 = "moonlightslash",
-            -- SKILL_SHORTCUT_EX_4 = "ashenfork",
-            SKILL_SHORTCUT_EX_5 = nil,
-            SKILL_SHORTCUT_EX_6 = nil,
-            GAMEPAD_SKILL_A = 'hopsmash',
-            GAMEPAD_SKILL_B = 'gorecross',
-            GAMEPAD_SKILL_X = 'tripleslash',
-            GAMEPAD_SKILL_Y = 'moonlightslash',
+    aic = {
+		sightRange = {x = 300, y = 260},
+        moveRange = {
+			wander = {x = 150, y = 100},
+			pursuit = {x = 40, y = 20},
+			pursuit = {x = {min = 20, max = 80}, y = {min = 10, max = 20}},
+		},
+		moveInterval = 2000,
+        skill = {},
+        states = {
+			wander = "wander",
+			pursuit = "pursuit",
+            attack = "attack",
+            --escape = "escape"
         },
+        defalutState = "wander",
     },
     render = {
         obj = 'avatar',
         path = "entity/character/swordman/",
         dynamic = true,
         subpath = {
-            skin = "skin/awake", -- origin
+            body = "skin/awake", -- origin
         },
         order = {
-            skin = 0,
+			body = 0,
             face_b = 1,
             weapon_b1 = 30,
             weapon_c1 = 30,
         },
+		--color = {
+		--	red = 255,
+		--	green = 0,
+		--	blue = 0,
+		--	alpha = 255,
+		--}
     },
+	input = {},
     fighter = {
-        weight = 10,
-        deathSound = "entity/character/voice/swordman/death",
+        weight = 50,
+        deathSound = {
+			"entity/character/voice/swordman/death",
+		},
         damageSound = {
             "entity/character/voice/swordman/sm_dmg_01",
             "entity/character/voice/swordman/sm_dmg_02",
@@ -51,14 +57,22 @@ return {
         "character/swordman/weapon/hsword_2", -- katana_ hsword_
     },
     skills = {
-        job = "swordman",
-        skills = {8, 16, 46, 64, 65, 76, 77, 169},
+        lightattack = "swordman/lightattack",
+		skill1 = "swordman/hopsmash",
+		skill2 = "swordman/gorecross",
+		skill4 = "swordman/tripleslash",
+		skillex3 = "swordman/moonlightslash",
+
+		dodge = "swordman/backstep",
+		heavyattack = "swordman/upperslash",
+        --counterAttack = "swordman/counterattack",
+        --mapping = { skill1 = "gorecross", },
     },
     stats = {
-        hp = 500,
-		mp = 20,
-		maxhp = 500,
-		maxmp = 50,
+        hp = 300,
+		mp = 100,
+		maxhp = 300,
+		maxmp = 100,
 		hpRecovery = 7.5, 
 		mpRecovery = 9,
 		attackRate = 0.80,

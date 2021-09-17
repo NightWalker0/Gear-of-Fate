@@ -62,23 +62,29 @@ return {
 			{"$SD/stone/5", 380, 510, 1},
 			{"$SD/stone/5", 580, 440, 1}, --580 440
 			{"$SD/stone/5", 730, 510, 1},
-			{"$SD/stone/5", 490, 585, 1},
-			{"$SD/stone/5", 185, 471, 1},
-			{"$SD/stone/5", 919, 441, 1},
-			{"$SD/stone/5", 811, 557, 1},
-
+			{"$SD/tree/16", 219, 372, 1},
+			{"$SD/tree/16", 720, 430, 1},
+			{"$SD/tree/15", 20, 415, 1},
+			{"$SD/tree/15", 10, 477, 1},
+			{"$SD/tree/15", 35, 540, 1},
+			{"$SD/tree/15", 1103, 410, 1},
+			{"$SD/tree/15", 1095, 490, 1},
+			{"$SD/tree/15", 1088, 556, 1},
+			--{"$SD/stone/5", 490, 585, 1},
+			--{"$SD/stone/5", 185, 471, 1},
+			--{"$SD/stone/5", 919, 441, 1},
+			--{"$SD/stone/5", 811, 557, 1},
 			--{"$SD/stone/5", 1000, 800, 1},
-			--
 			--{"$SD/stone/5", 1200, 800, 1},
-			--
 			--{"$SD/stone/5", 1000, 1000, 1},
-			--
 			--{"$SD/stone/5", 1100, 1000, 1},
 		},
 		enemy = {
 			--name, x, y, direction
-			{"character/swordman", 600, 460, 1},
-			{"character/swordman", 700, 460, 1},
+			--{"character/swordman", 473, 460, 1},
+			{"monster/goblinthrower", 465, 431, -1},
+			{"monster/goblinthrower", 536, 556, -1},
+			{"monster/tau/shauta", 890, 460, 1},
 		},
 		npc = {
 			--name, x, y, direction

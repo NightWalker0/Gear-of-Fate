@@ -1,0 +1,42 @@
+return {
+    script = 'tau/roar',
+    tags = {
+        autoPlay = true,
+        autoTrans = true,
+        attackRate = true,
+        isNormalSkill = true,
+    },
+    nextState = 'stay',
+    ticks = {
+		voice = 1,
+		secAttack = 5,
+	},
+    animNameSet = {
+        "roar",
+    },
+	attack = {
+		{
+			type = "blow",
+			direction = "horizon",
+			reaction = "damage",
+			push = {
+				time = 300,
+				v = -80,
+				a = 350
+			},
+			selfstop = 0,
+			hitstop = 500,
+			damage = 18,
+		},
+	},
+    sound = {
+		voice = "entity/monster/voice/tau/tau_roar",
+		hitting = {
+			"entity/monster/hitting/tau/axe",
+		},
+    },
+    transition = {
+        --attack = true,
+        --normalskills = true,
+    },
+}

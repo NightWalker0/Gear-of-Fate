@@ -1,5 +1,5 @@
 return {
-    script = 'swordman/move',
+    script = 'common/move',
     tags = {
         autoPlay = true,
     },
@@ -7,14 +7,11 @@ return {
         "dash",
     },
     nextState = "stay",
-    trans = {
-        {"NORMAL", "ATTACK", "attack"},
-        {"NORMAL", "JUMP", "jump"},
-        {"NORMAL", "BACK", "jump", true},
-        {"SKILL", 46, "upperslash"},
-		{"SKILL", 64, "gorecross"},
-		{"SKILL", 65, "hopsmash"},
-		{"SKILL", 77, "moonlightslash"},
-		{"SKILL", 8, "tripleslash"},
+    transition = {
+		attack = true,
+		jump = true,
+		dodge = true,
+		counter = true,
+		normalskills = true,
     },
 }

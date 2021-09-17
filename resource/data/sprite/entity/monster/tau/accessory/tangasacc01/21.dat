@@ -1,0 +1,5 @@
+return { 
+	image = "21",
+	ox = 47,
+	oy = 93,
+}

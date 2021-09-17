@@ -4,6 +4,7 @@ return {
         autoPlay = true,
         autoTrans = true,
         attackRate = true,
+        isNormalSkill = true,
     },
     nextState = 'stay',
     keyFrames = {3},
@@ -61,7 +62,7 @@ return {
     },
     easeMoveData = { 
         {
-            process = 1,
+            phase = 1,
             frame = 1,
             param = {
                 type = "x",
@@ -70,7 +71,7 @@ return {
             }
         },
         {
-            process = 2,
+            phase = 2,
             frame = 1,
             param = {
                 type = "x",
@@ -78,5 +79,10 @@ return {
                 a = -840,
             }
         },
-    }
+    },
+    transition = {
+        moonlightslash = true,
+        dodge = true,
+        counter = true,
+    },
 }

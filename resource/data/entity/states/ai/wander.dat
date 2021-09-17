@@ -1,0 +1,16 @@
+return {
+	script = "ai/wander",
+	sightRange = {
+		x = 300,
+		y = 260
+	},
+	wanderRange = {
+		x = 150,
+		y = 100
+	},
+	pursuitRange = {
+		x = 40,
+		y = 20
+	},
+	timer = 2000,
+}

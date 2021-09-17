@@ -1,0 +1,18 @@
+return {
+    script = "common/lift",
+    tags = {
+        autoPlay = true,
+        autoTrans = true,
+    },
+    nextState = 'stay',
+    animNameSet = {
+        "down",
+    },
+    lowestHeight = 30,
+    reliftFrame = 3,
+    reliftRate = {
+		touchdown = 0.5,
+		lowHeight = 0.5,
+		bounce = 0.5,
+	},
+}

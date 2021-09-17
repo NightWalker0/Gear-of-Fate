@@ -1,0 +1,91 @@
+return {
+	identity = {
+		name = "Goblin Thrower",
+		type = "monster",
+		subtype = "goblinthrower",
+		weight = 20,
+	},
+	render = {
+		obj = 'avatar',
+		path = "entity/monster/goblin/",
+		dynamic = true,
+		init = {
+			defaultAnim = 'stay',
+			animNameSet = {
+				'stay',
+				'move',
+			},
+		},
+		subpath = {
+			acc2 = "equipment/acc2",
+			body = "body/body0",
+			gcc1 = "equipment/gcc1",
+			tcc2 = "equipment/tcc2",
+			hcc3_3 = "equipment/hcc3_3",
+		},
+		order = {
+			acc2 = 0,
+			body = 1,
+			gcc1 = 2,
+			tcc2 = 3,
+			hcc3_3 = 4,
+		},
+	},
+	input = {},
+	aic = {
+		sightRange = {x = 300, y = 260},
+		moveRange = {
+			wander = {x = 150, y = 100},
+			pursuit = {x = {min = 80, max = 180}, y = {min = 10, max = 20}},
+		},
+		moveInterval = 2000,
+		attackInterval = 2000,
+		skill = {},
+		states = {
+			wander = "wander",
+			pursuit = "pursuit",
+			attack = "attack",
+			--escape = "escape"
+		},
+		defalutState = "wander",
+	},
+	fighter = {
+		weight = 20,
+		deathSound = {
+			"entity/monster/voice/goblin/gbn_die_01",
+			"entity/monster/voice/goblin/gbn_die_02",
+		},
+		damageSound = {
+			"entity/monster/voice/goblin/gbn_dmg_01",
+			"entity/monster/voice/goblin/gbn_dmg_02",
+			"entity/monster/voice/goblin/gbn_dmg_03",
+			"entity/monster/voice/goblin/gbn_dmg_04",
+		},
+	},
+	skills = {
+		LightThrowAttack = "goblin/lightthrowattack",
+		HeavyThrowAttack = "goblin/heavythrowattack",
+	},
+	stats = {
+		hp = 100,
+		mp = 20,
+		maxhp = 100,
+		maxmp = 50,
+		hpRecovery = 7.5,
+		mpRecovery = 9,
+		attackRate = 0.80,
+		moveRate = 1.0,
+		moveSpeed = 100,
+	},
+	state = {
+		stay = "monster/goblin/stay", --TODO: 改用common下的创建配置，下同
+		move = "monster/goblin/move",
+		push = "monster/goblin/push",
+		lift = "monster/goblin/lift",
+		throwattack = "monster/goblin/throwattack",
+	},
+	combat = {},
+	hitstop = {},
+	movement = {},
+	buff = {},
+}

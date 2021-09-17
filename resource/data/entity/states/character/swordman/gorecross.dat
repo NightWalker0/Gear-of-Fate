@@ -4,6 +4,7 @@ return {
         autoPlay = true,
         autoTrans = true,
         attackRate = true,
+        isNormalSkill = true,
     },
     nextState = 'stay',
     effectTicks = {3, 7, 10},
@@ -54,5 +55,9 @@ return {
             "entity/character/hitting/swordman/hsword/3",
             "entity/character/hitting/swordman/hsword/4",
         },
+    },
+    transition = {
+        dodge = true,
+        counter = true,
     },
 }

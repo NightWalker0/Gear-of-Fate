@@ -1,0 +1,95 @@
+return {
+	identity = {
+		name = "King of Tau - Shauta",
+		type = "monster",
+		subtype = "tau",
+		weight = 80,
+	},
+	render = {
+		obj = 'avatar',
+		path = "entity/monster/tau/",
+		dynamic = true,
+		init = {
+			defaultAnim = 'stay',
+			animNameSet = {
+				'stay',
+				'move',
+			},
+		},
+		subpath = {
+			body = "body/body05",
+			wrap = "accessory/wrap01",
+			armband = "accessory/tangga_0000",
+			tattoo = "accessory/tangga_0100", --tattoo01
+			hair = "accessory/tangashair01",
+			acc = "accessory/tangasacc01",
+			weapon = "weapon/(tn)tangga_weapon01",
+		},
+		order = {
+			body = 0,
+			wrap = 100,
+			armband = 200,
+			tattoo = 500,
+			hair = 500,
+			acc = 500,
+			weapon = 700,
+		},
+	},
+	input = {},
+	aic = {
+		sightRange = {x = 400, y = 300},
+		moveRange = {
+			wander = {x = 170, y = 120},
+			pursuit = {x = {min = 40, max = 80}, y = {min = 10, max = 20}},
+		},
+		moveInterval = 1600,
+		attackInterval = 1450,
+		skill = {},
+		states = {
+			wander = "wander",
+			pursuit = "pursuit",
+			attack = "attack",
+			--escape = "escape"
+		},
+		defalutState = "wander",
+	},
+	fighter = {
+		weight = 110,
+		deathSound = {
+			"entity/monster/voice/tau/tau_die",
+		},
+		damageSound = {
+			"entity/monster/voice/tau/tau_dmg_01",
+			"entity/monster/voice/tau/tau_dmg_02",
+			"entity/monster/voice/tau/tau_dmg_03",
+		},
+	},
+	skills = {
+		AxeAttack = "tau/axeattack",
+		Roar = "tau/roar",
+		--HeavyThrowAttack = "tau/heavythrowattack",
+	},
+	stats = {
+		hp = 600,
+		mp = 20,
+		maxhp = 600,
+		maxmp = 50,
+		hpRecovery = 7.5,
+		mpRecovery = 9,
+		attackRate = 0.80,
+		moveRate = 1.0,
+		moveSpeed = 150,
+	},
+	state = {
+		stay = "monster/tau/stay",
+		move = "monster/tau/move",
+		push = "monster/tau/push",
+		lift = "monster/tau/lift",
+		axeattack = "monster/tau/axeattack",
+		roar = "monster/tau/roar",
+	},
+	combat = {},
+	hitstop = {},
+	movement = {},
+	buff = {},
+}

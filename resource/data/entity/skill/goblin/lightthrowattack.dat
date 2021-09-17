@@ -1,0 +1,37 @@
+return {
+    name = "轻投掷攻击",
+    description = "快速投出一颗石头攻击敌人。",
+    operationExplain = "X / RB",
+
+    type = "active",
+    purcharseCost = 0,
+    actingCost = 0,
+    cooldownTime = 4000,
+    attackType = "physical",
+    damage = {
+        type = "fixed", -- fixed/rate
+        value = {
+            [1] = 80,
+            [2] = 100,
+            [3] = 110,
+        },
+    },
+
+    collider = {
+        path = "monster/goblin/skill/lightthrowattack",
+        frame = 1,
+    },
+    aiPriority = 1,
+    isCombo = true,
+    state = "throwattack",
+    stateArgs = {"light"},
+    preStates = {
+        "stay", "move"
+    },
+    inputEvent = {
+        name = "light-attack",
+        type = "action",
+        state = "PRESSED",
+        priority = 1,
+    },
+}

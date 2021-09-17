@@ -1,0 +1,47 @@
+return {
+    script = 'tau/axeattack',
+    tags = {
+        autoPlay = true,
+        autoTrans = true,
+        attackRate = true,
+        isNormalSkill = true,
+    },
+    nextState = 'stay',
+    ticks = {
+		swing = 2,
+		voice = 3,
+		secAttack = 5,
+	},
+    animNameSet = {
+        "attack1",
+    },
+    entity = {
+        --"effect/common/concentrationeffect",
+    },
+	attack = {
+		{
+			type = "cut",
+			direction = "down",
+			reaction = "damage",
+			push = {
+				time = 300,
+				v = -80,
+				a = 350
+			},
+			selfstop = 90,
+			hitstop = 140,
+			damage = 65,
+		},
+	},
+    sound = {
+		voice = "entity/monster/voice/tau/tau_attack",
+        swing = "entity/monster/swing/tau/tau_axeswing",
+		hitting = {
+			"entity/effect/hitting/hit_slash_02", --"entity/monster/hitting/tau/axe"
+		},
+    },
+    transition = {
+        --attack = true,
+        --normalskills = true,
+    },
+}

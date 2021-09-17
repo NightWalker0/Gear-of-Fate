@@ -1,9 +1,11 @@
 return {
     script = "swordman/hopsmash",
     tags = {
+        jump = true,
         autoPlay = true,
         autoTrans = true,
         attackRate = true,
+        isNormalSkill = true,
     },
     nextState = 'stay',
     animNameSet = {
@@ -52,6 +54,11 @@ return {
                 "entity/character/hitting/swordman/hsword/2",
             },
         },
+    },
+    transition = {
+        hopsmash = true,
+        --dodge = true,
+        --counter = true,
     },
     verticalSpeedBase = 750,
     gravity = 36,

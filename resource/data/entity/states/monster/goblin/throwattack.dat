@@ -1,0 +1,27 @@
+return {
+    script = 'goblin/throwattack',
+    tags = {
+        autoPlay = true,
+        autoTrans = true,
+        attackRate = true,
+        isNormalSkill = true,
+    },
+    nextState = 'stay',
+    ticks = {2},
+    animNameSet = {
+        "throw",
+    },
+    entity = {
+        "projectile/goblinthrower/stone",
+        "projectile/goblinthrower/stoneup",
+        "projectile/goblinthrower/stonedown",
+        --"effect/common/xuli1",
+    },
+    sound = {
+        swing = "entity/monster/swing/goblin/gbn_thw",
+    },
+    transition = {
+        attack = true,
+        normalskills = true,
+    },
+}

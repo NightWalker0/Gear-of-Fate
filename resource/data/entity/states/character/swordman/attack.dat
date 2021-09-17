@@ -82,7 +82,7 @@ return {
     },
     easeMoveData = {
         {
-            process = 2,
+            phase = 2,
             frame = 2,
             param = {
                 type = "x",
@@ -91,7 +91,7 @@ return {
             }
         },
         {
-            process = 3,
+            phase = 3,
             frame = 2,
             param = {
                 type = "x",
@@ -100,7 +100,7 @@ return {
             }
         },
         {
-            process = 4,
+            phase = 4,
             frame = 2,
             param = {
                 type = "x",
@@ -133,12 +133,10 @@ return {
             },
         },
     },
-    trans = {
-        {"NORMAL", "BACK", "jump", true},
-        {"SKILL", 46, "upperslash"},
-        {"SKILL", 64, "gorecross"},
-        {"SKILL", 65, "hopsmash"},
-        {"SKILL", 77, "moonlightslash"},
-        {"SKILL", 8, "tripleslash"},
+    transition = {
+        attack = true,
+        dodge = true,
+        counter = true,
+        normalskills = true,
     },
 }

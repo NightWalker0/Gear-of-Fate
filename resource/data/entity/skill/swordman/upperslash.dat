@@ -1,5 +1,43 @@
 return {--[[ #PVF_File --]]
-		["[name]"]="上挑",
+
+	name = "上挑",
+	icon = {
+		normal = "swordman/94",
+		cooldown = "swordman/95",
+	},
+	description = "向敌人发出从下段往上挑的攻击， 可以浮空敌人； 攻击时有霸体判定。",
+	operationExplain = "left+right+lightattack",
+
+	type = "active",
+	purcharseCost = 20,
+	actingCost = 6,
+	cooldownTime = 2000,
+	attackType = "physical",
+	damage = {
+		type = "fixed", -- fixed/rate
+		value = {
+			[1] = 80,
+			[2] = 100,
+			[3] = 110,
+		},
+	},
+
+	collider = {
+		path = "character/swordman/skin/moonlightslash1",
+		frame = 3,
+	},
+	isCombo = true,
+	state = "upperslash",
+	preStates = {
+		"stay", "move", "attack",
+	},
+	inputEvent = {
+		name = "heavy-attack", -- uncertain means it's depended which skill slot the skill is in
+		type = "action",
+		state = "PRESSED",
+	},
+
+	["[name]"]="上挑",
 		
 		["[explain]"]="    向敌人发出从下段往上挑的攻击， 可以浮空敌人； 攻击时有霸体判定。",
 		

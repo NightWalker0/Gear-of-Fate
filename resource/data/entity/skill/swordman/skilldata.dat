@@ -1,0 +1,45 @@
+return {
+    --basical info
+    name = "",
+    icon = {
+        normal = "swordman/",
+        cooldown = "swordman/",
+    },--special skills like counterAttack don't need this, they won't be displayed by icon.
+    description = "",
+    operationExplain = "",
+
+    --data about
+    type = "active",
+    purcharseCost = 15,
+    actingCost = 20,
+    cooldownTime = 0,
+    attackType = "physical",
+    damage = {
+        type = "fixed", -- fixed/rate
+        value = { -- index can be phase or level of skill
+            [1] = 80,
+            [2] = 100,
+            [3] = 110,
+        },
+    },
+    element = "fire",
+
+    --logic about
+    collider = { -- use to detect whether entity can hit enemy when ai control it.
+        path = "",
+        frame = 1,
+    },
+    priority = 0, -- some skill listen the same inputEvent, this decide which one will be executed first.
+    state = "",
+    preStates = {
+        "",
+    },
+    preFlags = {
+        sprint = true,
+    },
+    inputEvent = {
+        name = "attack-heavy",
+        type = "action", -- action/axis
+        state = "ALL", -- PRESSED/RELEASED/ALL(PRESSED+RELEASED)
+    },
+}

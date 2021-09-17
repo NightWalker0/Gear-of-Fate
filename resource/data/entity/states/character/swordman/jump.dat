@@ -4,6 +4,7 @@ return {
         autoPlay = true,
         autoTrans = true,
         attackRate = true,
+        isDodge = true,
     },
     nextState = 'stay',
     animNameSet = {

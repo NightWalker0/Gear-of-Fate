@@ -4,6 +4,7 @@ return {
         autoPlay = true,
         autoTrans = true,
         attackRate = true,
+        isNormalSkill = true,
     },
     combo = 3,
     keyFrames = {2, 2},
@@ -83,7 +84,7 @@ return {
     },
     easeMoveData = {
         {
-            process = 1,
+            phase = 1,
             frame = 2,
             param = {
                 type = "x",
@@ -92,7 +93,7 @@ return {
             }
         },
         {
-            process = 2,
+            phase = 2,
             frame = 2,
             param = {
                 type = "x",
@@ -101,7 +102,7 @@ return {
             }
         },
         {
-            process = 3,
+            phase = 3,
             frame = 2,
             param = {
                 type = "x",
@@ -109,5 +110,10 @@ return {
                 a = -900,
             }
         },
+    },
+    transition = {
+        tripleslash = true,
+        dodge = true,
+        counter = true,
     },
 }

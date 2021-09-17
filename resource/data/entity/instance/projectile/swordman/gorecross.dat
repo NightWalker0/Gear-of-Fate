@@ -18,9 +18,9 @@ return {
         tags = {
             combat = true,
             hitstop = true,
+            playEnd = true,
         },
         attack = {
-            turnDirection = false,
             type = "cut",
             direction = "down",
             reaction = "damage",
@@ -38,14 +38,15 @@ return {
             },
         },
         movementParam = {
-            type = "x",
             tick = 1,
-            v = 240,
-            a = -670,
+            v = {240},
+            a = {-670},
         },
     },
     combat = {},
     fighter = {},
     hitstop = {},
-    movement = {},
+    movement = {
+        ignoreObstacle = true,
+    },
 }

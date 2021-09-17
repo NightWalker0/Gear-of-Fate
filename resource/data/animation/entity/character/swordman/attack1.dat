@@ -3,7 +3,7 @@ return {
     frames = {
         {
             sprite = "0",
-            time = 100,--50
+            time = 70,--50
         },
         {
             sprite = "1",

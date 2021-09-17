@@ -1,5 +1,7 @@
 return {
-    identity = {},
+    identity = {
+        name = "playerAura",
+    },
     render = {
         obj = 'frameani',
         path = "entity/effect/common/aura/player",

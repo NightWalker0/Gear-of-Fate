@@ -14,6 +14,24 @@ return {
             event = { name = "heavy-attack", type = 1, },
             control = { code = "z", type = 1, },
         },
+
+        {
+            event = { name = "hopsmash", type = 1, },
+            control = { code = "a", type = 1, },
+        },
+        {
+            event = { name = "moonlight-slash", type = 1, },
+            control = { code = "e", type = 1, },
+        },
+        {
+            event = { name = "gorecross", type = 1, },
+            control = { code = "s", type = 1, },
+        },
+        {
+            event = { name = "triple-slash", type = 1, },
+            control = { code = "f", type = 1, },
+        },
+
         {
             event = { name = "dodge", type = 1 },
             control = { code = "v", type = 1, },
@@ -30,10 +48,10 @@ return {
             event = { name = "interact", type = 1 },
             control = { code = "space", type = 1,  },
         },
-        {
-            event = { name = "switch-weapon", type = 1 },
-            control = { code = "f", type = 1,  },
-        },
+        --{
+        --    event = { name = "switch-weapon", type = 1 },
+        --    control = { code = "f", type = 1,  },
+        --},
         {
             event = { name = "move-left", type = 1, },
             control = { code = "left", type = 1,  },

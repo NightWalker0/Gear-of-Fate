@@ -1,0 +1,14 @@
+return {
+    script = 'common/move',
+    tags = {
+        autoPlay = true,
+    },
+    animNameSet = {
+        "move",
+    },
+    nextState = "stay",
+    transition = {
+		attack = true,
+		normalskills = true,
+    },
+}

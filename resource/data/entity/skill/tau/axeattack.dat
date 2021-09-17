@@ -1,0 +1,37 @@
+return {
+    name = "斧攻击",
+    description = "举起石斧，快速下劈攻击敌人。",
+    operationExplain = "X / RB",
+
+    type = "active",
+    purcharseCost = 0,
+    actingCost = 0,
+    cooldownTime = 4000,
+    attackType = "physical",
+    damage = {
+        type = "fixed", -- fixed/rate
+        value = {
+            [1] = 80,
+            [2] = 100,
+            [3] = 110,
+        },
+    },
+
+    collider = {
+        path = "monster/tau/weapon/attack1",
+        frame = 5,
+    },
+    aiPriority = 1,
+    isCombo = true,
+    state = "axeattack",
+    stateArgs = {},
+    preStates = {
+        "stay", "move"
+    },
+    inputEvent = {
+        name = "light-attack",
+        type = "action",
+        state = "PRESSED",
+        priority = 1,
+    },
+}

@@ -4,6 +4,7 @@ return {
         autoPlay = true,
         autoTrans = true,
         attackRate = true,
+        isNormalSkill = true,
     },
     ticks = {2},
     nextState = 'stay',
@@ -40,7 +41,7 @@ return {
     },
     easeMoveData = {
         {
-            process = 1,
+            phase = 1,
             frame = 2,
             param = {
                 type = "x",
@@ -50,4 +51,8 @@ return {
             }
         },
 	},
+    transition = {
+        dodge = true,
+        counter = true,
+    },
 }

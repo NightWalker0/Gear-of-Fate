@@ -1,0 +1,43 @@
+return {
+    render = {
+        obj = 'frameani',
+        path = "entity/projectile/goblinthrower/stone",
+        offset = 0,
+    },
+    projectile = {
+        tags = {
+            combat = true,
+            hitstop = true,
+            endOnHit = true,
+        },
+        attack = {
+            type = "blow",
+            direction = "down",
+            reaction = "damage",
+            push = {
+                time = 450,
+                v = -70,
+                a = 350
+            },
+            selfstop = 92,
+            hitstop = 80,
+            damage = 10,
+            hitSound = {
+                "entity/effect/hitting/staff_hit",
+            },
+        },
+        movementParam = {
+            tick = 0,
+            v = {350},
+            a = {0},
+            distance = 200,
+        },
+        deathAnim = "entity/projectile/goblinthrower/stoneDeath",
+    },
+    combat = {},
+    fighter = {},
+    hitstop = {},
+    movement = {
+        ignoreObstacle = false,
+    },
+}

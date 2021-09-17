@@ -1,0 +1,21 @@
+return {
+    isLoop = true,
+    frames = {
+        {
+            sprite = "entity/monster/goblin/equipment/weapon2/0",
+            time = 80,
+        },
+        {
+            sprite = "entity/monster/goblin/equipment/weapon2/1",
+            time = 80,
+        },
+        {
+            sprite = "entity/monster/goblin/equipment/weapon2/2",
+            time = 80,
+        },
+        {
+            sprite = "entity/monster/goblin/equipment/weapon2/3",
+            time = 80,
+        },
+    },
+}

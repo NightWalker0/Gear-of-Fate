@@ -16,10 +16,10 @@ return {
     projectile = {
         tags = {
             combat = true,
+            playEnd = true,
         },
         playEnd = true,
         attack = {
-            turnDirection = false,
             type = "cut",
             direction = "up",
             reaction = "damage",

@@ -1,0 +1,12 @@
+return {
+	script = "ai/pursuit",
+	sightRange = {
+		x = 300,
+		y = 260
+	},
+	moveRange = {
+		x = 50,
+		y = 20
+	},
+	timer = 2000,
+}

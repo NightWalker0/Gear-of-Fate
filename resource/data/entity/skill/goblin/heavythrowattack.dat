@@ -1,0 +1,37 @@
+return {
+    name = "重投掷攻击",
+    description = "蓄力投出三颗石头攻击敌人。",
+    operationExplain = "X / RB",
+
+    type = "active",
+    purcharseCost = 0,
+    actingCost = 0,
+    cooldownTime = 8000,
+    attackType = "physical",
+    damage = {
+        type = "fixed", -- fixed/rate
+        value = {
+            [1] = 80,
+            [2] = 100,
+            [3] = 110,
+        },
+    },
+
+    collider = {
+        path = "monster/goblin/skill/heavythrowattack",
+        frame = 1,
+    },
+    aiPriority = 0,
+    isCombo = true,
+    state = "throwattack",
+    stateArgs = {"heavy"},
+    preStates = {
+        "stay", "move"
+    },
+    inputEvent = {
+        name = "heavy-attack",
+        type = "action",
+        state = "PRESSED",
+        priority = 1,
+    },
+}

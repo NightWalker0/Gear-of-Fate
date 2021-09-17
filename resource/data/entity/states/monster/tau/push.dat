@@ -1,0 +1,12 @@
+return {
+    script = "common/push",
+    tags = {
+        autoPlay = true,
+        autoTrans = true,
+    },
+    nextState = 'stay',
+    animNameSet = {
+        "damage1",
+        "damage2",
+    },
+}

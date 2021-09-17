@@ -1,0 +1,54 @@
+return {
+	isLoop = false,
+	frames = {
+		{
+			sprite = '28',
+			time = 150,
+		},
+		{
+			sprite = '29',
+			time = 70,
+		},
+
+		{
+			sprite = '30',
+			time = 30,
+		},
+		{
+			sprite = '31',
+			time = 30,
+		},
+		{
+			sprite = '30',
+			time = 30,
+		},
+		{
+			sprite = '31',
+			time = 30,
+		},
+		{
+			sprite = '30',
+			time = 30,
+		},
+		{
+			sprite = '31',
+			time = 30,
+		},
+		{
+			sprite = '30',
+			time = 30,
+		},
+		{
+			sprite = '31',
+			time = 30,
+		},
+		{
+			sprite = '30',
+			time = 30,
+		},
+		{
+			sprite = '31',
+			time = 30,
+		},
+	}
+}

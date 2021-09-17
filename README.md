@@ -31,15 +31,16 @@ A complete combat system are composition of many mechanics and elements:
 
 As the core mechanic of GOF, it centered on combat compoent, cooperate with many other components(like render, movement, identity, state etc) and other systems(like entity manager, entity factory, audio) to process attack and damage in a battle.
 
-## AI System (uncompleted)
-It's expected that ai system will using following technologies:
+## AI System 
+The ai system used following technologies:
 * A* path finding algorithm
 * Finite State Machine (for decision logic)
 
-## Level System (uncompleted)
+## Level System (unfinished)
 The level system of GOF is uncompleted, but it's expected that this system will have following features:
 * Load Level
-* Switching Process
-* PathGraph Constructing
+* Switching Process 
+* PathGraph Constructing √
 ## UI System
 The ui system in GOF used drawable types from render system, so it can have a scene graph management too. Layout manager will load layout of a panel to construct widgets in the panel.Widgets can be linked to game logic by controller to complete some logical interactions, because the pattern of ui system is MVC.
+
