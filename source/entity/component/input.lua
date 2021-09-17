@@ -70,7 +70,7 @@ end
 
 function _InputComponent:InputAction(action, state)
     local event = self._actionBindings[state][action]
-    print("InputAction: ", action, state, event)
+    --print("InputAction: ", action, state, event)
     if event then
         event:Notify()
     end

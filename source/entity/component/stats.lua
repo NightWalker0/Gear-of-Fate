@@ -32,6 +32,10 @@ function _Stats:Ctor(entity, data)
 end
 
 function _Stats:Update(dt)
+    if self._entity.fighter.isDead then
+        return
+    end
+
     self.hp:Update(dt)
     self.mp:Update(dt)
 end

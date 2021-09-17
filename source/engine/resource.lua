@@ -89,7 +89,7 @@ end
 ---@param newSpriteDataFunc function
 ---@param imgPath string | nil
 ---@return Engine.Resource.AnimData
-function _RESOURCE.NewAniData(path, newSpriteDataFunc, imgPath) 
+function _RESOURCE.NewAniData(path, newSpriteDataFunc, imgPath, loadCollider)
     imgPath = imgPath and imgPath .. "/" or ""
     local staticData = _RESOURCE.LoadData(_DIRS.ANIM .. path)
 
@@ -114,9 +114,10 @@ function _RESOURCE.NewAniData(path, newSpriteDataFunc, imgPath)
     colliderDataPath = string.gsub(colliderDataPath, "entity/", "")
     data.colliderData = _RESOURCE.NewColliderData(colliderDataPath)
 
-    -- if data.colliderData then
-    --     print(path, imgPath, data.colliderData)
-    -- end
+    if not data.colliderData then
+        --print(path, imgPath, data.colliderData, #data.colliderData)
+        print("no collider data:", colliderDataPath)
+    end
 
     return data
 end
@@ -124,7 +125,11 @@ end
 function _RESOURCE.NewColliderData(path)
     path = _DIRS.COLLIDER .. path
     local exists = _FILE.Exist(path .. ".dat")
-    return exists and _RESOURCE.LoadData(path) or nil
+
+    ---@class Engine.Resource.ColliderData
+    local data = exists and _RESOURCE.LoadData(path) or nil
+
+    return data
 end
 
 ---@param path string
@@ -162,6 +167,12 @@ end
 function _RESOURCE.LoadAnimData(path)
     -- print("_RESOURCE.LoadAnimData(path)", path)
     return _RESOURCE.LoadResource(path, _RESOURCE.NewAniData, _pools.aniData, _RESOURCE.NewSpriteData)
+end
+
+---@param path string
+---@return Engine.Resource.ColliderData
+function _RESOURCE.LoadColliderData(path)
+    return _RESOURCE.LoadResource(path, _RESOURCE.NewColliderData, _pools.colliderData)
 end
 
 ---@param path string

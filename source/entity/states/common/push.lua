@@ -7,7 +7,7 @@
 local _Timer = require("utils.timer")
 local _Base  = require("entity.states.base")
 
----@class State.Push : State.Base
+---@class State.Push : Entity.State.Base
 local _Push = require("core.class")(_Base)
 
 function _Push:Ctor(data, name)

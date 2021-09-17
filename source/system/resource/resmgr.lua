@@ -7,13 +7,13 @@
 local _STRING = require("engine.string")
 local _FILE = require('engine.filesystem')
 local _RESOURCE = require('engine.resource')
+local _Skill = require("entity.skill")
 
 ---@class _RESMGR
 local _RESMGR = {
 	imgPathHead = "resource/image/", -- ImagePacks/
 	-- dataPathHead = "resource/data/"
 }
-local this = _RESMGR
 
 local _pools = {
 	entity = {},
@@ -75,6 +75,23 @@ local function _NewEntityData(path)
 	return data
 end
 
+local function _NewSkillData(path)
+	---@class System.RESMGR.SkillData
+	local data = _RESOURCE.LoadData("resource/data/entity/skill/" .. path)
+	if data.icon then
+		data.icon.normal = _RESOURCE.LoadImage("entity/icon/skill/" .. data.icon.normal)
+		data.icon.cooldown = _RESOURCE.LoadImage("entity/icon/skill/" .. data.icon.cooldown)
+	end
+	data.element = data.element or "none"
+	if data.collider then
+		if data.collider.path then
+			data.colliderData = _RESOURCE.LoadColliderData(data.collider.path)[data.collider.frame]
+		end
+	end
+
+	return data
+end
+
 ---@param path string
 ---@return System.RESMGR.StateData
 local function _NewStateData(path)
@@ -109,6 +126,12 @@ end
 ---@return System.RESMGR.EntityData
 function _RESMGR.LoadEntityData(path)
 	return _RESOURCE.LoadResource(path, _NewEntityData, _pools.entity)
+end
+
+---@param path string
+---@return System.RESMGR.SkillData
+function _RESMGR.LoadSkill(path)
+	return _RESOURCE.LoadResource(path, _NewSkillData, _pools.skill)
 end
 
 ---@param path string

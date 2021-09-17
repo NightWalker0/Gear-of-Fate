@@ -26,9 +26,9 @@ end
 ---@param entity Entity
 function _Effect:Ctor(entity, data, param)
 	_Base.Ctor(self, entity)
-	self._lockDirection = data.lockDirection
-	self._lockRate = data.lockRate
-	self._lockStop = data.lockStop == nil and true or data.lockStop
+	self._syncDirection = data.lockDirection
+	self._syncRate = data.lockRate
+	self._syncStop = data.lockStop == nil and true or data.lockStop
 	self._playEnd = data.playEnd or false
 	self._eternal = data.eternal or false
 	self._followType = data.followType
@@ -55,17 +55,17 @@ function _Effect:Update()
 			end
 		end
 
-		if self._lockStop and self._entity.identity.isPaused ~= master.identity.isPaused then
+		if self._syncStop and self._entity.identity.isPaused ~= master.identity.isPaused then
 			self._entity.identity.isPaused = master.identity.isPaused
 		end
 
-		if self._lockDirection then
+		if self._syncDirection then
 			if self._entity.transform.direction ~= master.transform.direction then
 				self._entity.transform.direction = master.transform.direction
 			end
 		end
 
-		if self._lockRate then
+		if self._syncRate then
 			if self._entity.render.timeScale ~= master.render.timeScale then
 				self._entity.render.timeScale = master.render.timeScale
 			end

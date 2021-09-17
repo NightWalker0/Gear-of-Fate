@@ -7,7 +7,7 @@
 local _AUDIOMGR = require "engine.audio"
 local _Base = require("entity.states.base")
 
----@class State.Jump : State.Base
+---@class State.Jump : Entity.State.Base
 local _Jump = require("core.class")(_Base)
 
 function _Jump:Ctor(data, ...)
@@ -46,7 +46,7 @@ function _Jump:Enter(backJump)
 end
 
 function _Jump:Update(dt)
-	_Base.AutoEndTrans(self, dt)
+	_Base.AutoTransitionAtEnd(self, dt)
 	self:StartJump()	
 	self:Movement() 
 	self:JumpAttack()
@@ -95,27 +95,27 @@ function _Jump:Movement()
 			if self._STATE.preState.name == "dash" then
 				v = 2
 			end 
-			if self._input:IsHold("LEFT") then
+			if self._movement.moveInput.left then
 				if not self.jumpAttack and not self.directionLock then
 					self._entity.transform.direction = -1
 				end
-				self._movement:X_Move(self._entity.spd.x * v * -1)
-			elseif self._input:IsHold("RIGHT") then
+				self._movement:Move('x', self._entity.spd.x * v * -1)
+			elseif self._movement.moveInput.right then
 				if not self.jumpAttack and not self.directionLock then
 					self._entity.transform.direction = 1
 				end
-				self._movement:X_Move(self._entity.spd.x * v * 1)
+				self._movement:Move('x', self._entity.spd.x * v * 1)
 			end
 
-			if self._input:IsHold("UP") then
-				self._movement:Y_Move(self._entity.spd.y * v * 0.5 * -1)
-			elseif self._input:IsHold("DOWN") then
-				self._movement:Y_Move(self._entity.spd.y * v * 0.5 * 1)
+			if self._movement.moveInput.up then
+				self._movement:Move('y', self._entity.spd.y * v * 0.5 * -1)
+			elseif self._movement.moveInput.down then
+				self._movement:Move('y', self._entity.spd.y * v * 0.5 * 1)
 			end
 		end 
 	else 
 		if self._movement:IsRising() or self._movement:IsFalling() then
-			self._movement:X_Move(250 * self._entity.transform.direction * -1)
+			self._movement:Move('x', 250 * self._entity.transform.direction * -1)
 		end
 	end 
 end
@@ -174,10 +174,6 @@ function _Jump:Exit()
 	self.jumpAttack = false
 	self._movement.eventMap.topped:AddListener(self, self.Top)
 	self._movement.eventMap.touchdown:AddListener(self, self.Land)
-end
-
-function _Jump:GetTrans()
-	return self._trans
 end
 
 return _Jump 

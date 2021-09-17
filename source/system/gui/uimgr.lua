@@ -9,6 +9,8 @@
 ]]
 local _Vector2 = require("utils.vector2")
 local _MATH = require("engine.math")
+local _INPUT = require("engine.input") ---@type Engine.Input
+local _INPUT_DEFINE = require("engine.input.inputdefine")
 local _Mouse = require("engine.input.mouse")
 local _GRAPHICS = require("engine.graphics")
 local _Color = require("engine.graphics.config.color")
@@ -67,6 +69,9 @@ function _UIMGR.Init(persistentPanel)
         this.Open(persistentPanel)
         this._persistentPanel = this._topPanel
     end
+
+    _INPUT.Register(_UIMGR)
+    _INPUT.mouse:AddListener(_UIMGR)
 end
 
 function _UIMGR.Draw()
@@ -131,6 +136,7 @@ function _UIMGR.Close()
         _easeInAnim.isRunning = true
         this._topPanel.root:SetRenderValue("color", _easeInAnim.color:Get())
         this._topPanel:OnDisable()
+		--local closeThread = coroutine.create(this._Close)
     end
 end
 
@@ -163,20 +169,11 @@ function _UIMGR.OnOff(name)
     end
 end
 
-function _UIMGR.ButtonPressed(_, btn)
-    if btn == "MENU" then
-        this.OnOff("inventory")
-    end
-end
-
-function _UIMGR.ButtonReleased(_, btn)
-end
-
 ---@param x float
 ---@param y float
 ---@param button int @left:1, middle:2, right:3.
 ---@param istouch boolean
-function _UIMGR.MousePressed(_, x, y, button, istouch)
+function _UIMGR.OnMousePress(_, x, y, button, istouch)
     if button == 1 and not _easeInAnim.isRunning then
         ---@param w GUI.Widgets.Base
         local function HandleEvent(w)
@@ -197,7 +194,7 @@ end
 ---@param y float
 ---@param button int @left:1, middle:2, right:3.
 ---@param istouch boolean
-function _UIMGR.MouseReleased(_, x, y, button, istouch)
+function _UIMGR.OnMouseRelease(_, x, y, button, istouch)
     if button == 1 and not _easeInAnim.isRunning then
         ---@param w GUI.Widgets.Base
         local function HandleEvent(w)
@@ -217,7 +214,7 @@ end
 ---@param y float
 ---@param dx float
 ---@param dy float
-function _UIMGR.MouseMoved(_, x, y, dx, dy)
+function _UIMGR.OnMouseMove(_, x, y, dx, dy)
     ---@param w GUI.Widgets.Base
     local function HandleEvent(w)
         local lastIsIn = w:CheckPoint(this._lastMousePosition:Get())
@@ -238,13 +235,19 @@ function _UIMGR.MouseMoved(_, x, y, dx, dy)
     end
 end
 
-function _UIMGR:HandleAction(action, state)
+function _UIMGR.HandleAction(_, action, state)
+    if state == _INPUT_DEFINE.STATE.PRESSED then
+        if action == "main-ui" then
+            this.OnOff("inventory")
+        end
+    end
+
+    if state == _INPUT_DEFINE.STATE.RELEASED then
+
+    end
 end
 
-function _UIMGR:HandleAxis(axis, value)
+function _UIMGR.HandleAxis(_, axis, value)
 end
-
-_UIMGR.OnPress = _UIMGR.ButtonPressed
-_UIMGR.OnRelease = _UIMGR.ButtonReleased
 
 return _UIMGR 

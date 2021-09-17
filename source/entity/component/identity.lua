@@ -28,12 +28,9 @@ function _Identity:Ctor(entity, data, param)
     self.process = 2
     self.isPaused = false
     self.immortal = false
+    self.dontDestroyOnLoadScene = false
     self.onDestroy = _Event.New()
 end
-
--- function _Identity:Update(dt)
-    
--- end
 
 function _Identity:StartDestroy()
     self.process = 0

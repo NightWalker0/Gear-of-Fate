@@ -43,8 +43,8 @@ end
 ---@param pathList Core.List
 ---@return table<int, int>
 function _Pathfinder:FindPath(startX, startY, destX, destY, pathList)
-	_LOG.Debug("==========================================================")
-	_LOG.Debug("Pathfinder.FindPath - %d %d %d %d", startX, startY, destX, destY)
+	--_LOG.Debug("==========================================================")
+	--_LOG.Debug("Pathfinder.FindPath - %d %d %d %d", startX, startY, destX, destY)
 	self:_ResetNodes()
 	self._closeValue = self._closeValue + 1
 	self._openList = self._openQueue
@@ -91,17 +91,17 @@ function _Pathfinder:FindPath(startX, startY, destX, destY, pathList)
 		loopCount = loopCount + 1
 	end
 	if not gotEnd then
-		_LOG.Debug("Pathfinder.FindPath - no valid path.")
+		LOG.Debug("Pathfinder.FindPath - no valid path.")
 		return false
 	end
 
 	local costTime = (_TIME.GetTime(true) - timeRecord) * 1000
-	_LOG.Debug("- cost time:%.10f", costTime)
-	_LOG.Debug("- loop count:%d",  loopCount)
-	_LOG.Debug("- openlist count:%d", self._openList:Count())
+	--_LOG.Debug("- cost time:%.10f", costTime)
+	--_LOG.Debug("- loop count:%d",  loopCount)
+	--_LOG.Debug("- openlist count:%d", self._openList:Count())
 
 	self:_RetracePath(destNode, pathList)
-	_LOG.Debug("- path length:%d", pathList:Count())
+	--_LOG.Debug("- path length:%d", pathList:Count())
 
 	return true
 end
@@ -164,7 +164,7 @@ function _Pathfinder:_GetMinFCostNode(openList)
 		if _Pathfinder._ComparePriority(node, minNode) then --node.fCost < minF or (node.fCost == minF and node.hCost < minNode.hCost)		node.fCost <= minF
 			minNode = node
 			minF = node.fCost
-			_LOG.Debug("minNode[%d][%d], gCost:%d hCost:%d fCost:%d",
+			LOG.Debug("minNode[%d][%d], gCost:%d hCost:%d fCost:%d",
 					node.ix, node.iy, node.gCost, node.hCost, node.fCost)
 		end
 	end

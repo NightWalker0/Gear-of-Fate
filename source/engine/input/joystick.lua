@@ -51,14 +51,14 @@ function _InputJoystick:_HookLoveCallbakcs()
 
 	---@param joystick Joystick
 	local function _JoystickAdded(joystick)
-		_LOG.Debug("Connected Joystick: %d %s %s", joystick:getID(), joystick:getName(), joystick:getGUID())
+		LOG.Debug("Connected Joystick: %d %s %s", joystick:getID(), joystick:getName(), joystick:getGUID())
 	end
 
 	---@param joystick Joystick
 	---@param button string
 	local function _JoystickPressed(joystick, button)
 		if self._joystick == nil and joystick ~= nil then
-			_LOG.Debug("InputJoystick: player joystick confirm:%s  :)", joystick:getID())
+			LOG.Debug("InputJoystick: player joystick confirm:%s  :)", joystick:getID())
 		end
 		self._joystick = self._joystick or joystick
 		if joystick == self._joystick then
@@ -81,7 +81,7 @@ function _InputJoystick:_HookLoveCallbakcs()
 	---@param newValue number
 	local function _JoystickAxis(joystick, axis, newValue)
 		if self._joystick == nil and joystick ~= nil then
-			_LOG.Debug("InputJoystick: player joystick confirm:%s  :)", joystick:getID())
+			LOG.Debug("InputJoystick: player joystick confirm:%s  :)", joystick:getID())
 		end
 		if joystick == self._joystick then
 			self:OnAxis(axis, newValue)
@@ -111,7 +111,7 @@ function _InputJoystick:AddMapping(mapping)
 		if mapping.control.type == _INPUT_DEFINE.CONTROL_TYPE.AXIS then
 			self._axisToAxisEvent[mapping.control.code] = mapping.event.name
 		else
-			_LOG.Error("InputJoystick, the mapping of button to axisEvent is not supported.")
+			LOG.Error("InputJoystick, the mapping of button to axisEvent is not supported.")
 		end
 	elseif mapping.event.type == _INPUT_DEFINE.EVENT_TYPE.ACTION then
 		if mapping.control.type == _INPUT_DEFINE.CONTROL_TYPE.BUTTON then

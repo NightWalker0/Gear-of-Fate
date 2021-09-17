@@ -37,22 +37,22 @@ function _SkillShortcut:_OnDraw()
 	self._slot:Draw()
 	if self._skill then
 		self._sprites[self._skill.state]:Draw()
-		self._cooldownPercent = self._skill.coolTimer / self._skill.coolTime
+		self._cooldownPercent = 1.0 - self._skill._timer:GetProgress()
 		self._cooldownPercent = math.abs(self._cooldownPercent)
 		if self._cooldownPercent > 0 then
-			_GRAPHICS.SetColor(0, 0, 0, 122)
+			_GRAPHICS.SetColor(0, 0, 0, 180)
 			_GRAPHICS.DrawRect("fill", self.x + 1, self.y + 1, self._sprites[1]:GetWidth(), self._sprites[1]:GetHeight() * self._cooldownPercent)
 			_GRAPHICS.ResetColor()
 		end
 	end
 end 
 
----@param skill Skill
+---@param skill Entity.Skill
 function _SkillShortcut:SetSkill(skill)
 	assert(skill, "skill is nil")
 	self._skill = skill
-	self._sprites[1]:SetImage(string.lower(self._skill.iconPath[1]))
-	self._sprites[2]:SetImage(string.lower(self._skill.iconPath[2]))
+	self._sprites[1]:SetImage(self._skill.icon.normal)
+	self._sprites[2]:SetImage(self._skill.icon.cooldown)
 end
 
 function _SkillShortcut:SetCooldownTimePercent(percent)

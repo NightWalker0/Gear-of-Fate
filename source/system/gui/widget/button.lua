@@ -29,7 +29,8 @@ function _Button:Ctor(name, text, x, y, stylePath)
     self._sprites = {
         normal = _Sprite.New(),
         light = _Sprite.New(),
-        pressed = _Sprite.New(), 
+        pressed = _Sprite.New(),
+
     }
     self._sprites.normal:SetImage(self._style[1])
     self._sprites.light:SetImage(self._style[2])

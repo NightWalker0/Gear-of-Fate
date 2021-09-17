@@ -6,7 +6,7 @@
 ]]
 local _Vector2 = require("utils.vector2")
 
----@class Engine.Graphics.Graphics
+---@class Engine.Graphics
 local _GRAPHICS = {}
 
 _GRAPHICS.Draw = love.graphics.draw
@@ -40,7 +40,8 @@ local _curShader = love.graphics.getShader()
 local _preFont
 local _curFont = love.graphics.getFont()
 
-love.graphics.setPointSize(5)
+love.graphics.setPointSize(7)
+love.graphics.setLineWidth(1)
 love.graphics.setBackgroundColor(100, 100, 100, 255)
 --love.graphics.setDefaultFilter("nearest", "nearest")
 

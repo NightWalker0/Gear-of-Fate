@@ -64,6 +64,7 @@ function _Combat:Ctor(entity)
 	}
 end
 
+---@param OnHitCallback fun(combat:Entity.Component.Combat, behitEntity:Entity):void
 function _Combat:StartAttack(attack, OnHitCallback)
 	self._attack = attack
 	self._OnHit = OnHitCallback
@@ -137,7 +138,7 @@ function _Combat:Update(dt)
 				local isCritical = curState:IsFlawState() or self._entity.transform:IsInBackOf(oppoTransform)
 
 				if (e.fighter or e.projectile) and self._attack.turnDirection then
-					local selfPos = self._entity.transform.position
+					local selfPos = self._entity.projectile and self._entity.identity.master.transform.position or self._entity.transform.position
 					local oppoPos = e.transform.position
 					e.transform.direction = (selfPos.x - oppoPos.x > 0) and 1 or -1
 				end
@@ -192,14 +193,18 @@ function _Combat:Update(dt)
 				end
 
 				if self._hitSoundGroup then
-					_AUDIO.RandomPlay(self._hitSoundGroup)
+					if type(self._hitSoundGroup) == "table" then
+						_AUDIO.RandomPlay(self._hitSoundGroup)
+					else
+						_AUDIO.PlaySound(self._hitSoundGroup)
+					end
 				end
 
 				if self._attack.element then
 					_AUDIO.PlaySound(_elementSoundDataMap[self._attack.element])
 				end
 
-				local damageSoundDataSet = self._entity.fighter.damageSoundDataSet
+				local damageSoundDataSet = e.fighter.damageSoundDataSet
 				if damageSoundDataSet then
 					if type(damageSoundDataSet) == "table" then
 						_AUDIO.RandomPlay(damageSoundDataSet)
@@ -209,7 +214,7 @@ function _Combat:Update(dt)
 				end
 
 				local attackedData = e.combat.onAttackedData
-				attackedData.damage = self._attack.damage;
+				attackedData.damage = self._attack.damage
 				e.combat.onAttackedEvent:Notify()
 	
 				if self._OnHit then

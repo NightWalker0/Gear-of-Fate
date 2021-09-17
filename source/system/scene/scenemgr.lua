@@ -25,8 +25,10 @@ local _SCENEMGR = {
 	_mode = "game", -- game|editor
 	_setting = nil,
 	_DrawEntity = nil,
+	_UnloadEntity = nil,
 	_localPlayer = nil,
 	_TILE_WIDTH = 224,
+	_firstLoad = true,
 	_layers = {
 		farback = _Layer.New(),
 		midback = _Layer.New(),
@@ -149,10 +151,9 @@ local function _LoadEntities(data)
 			param.y = item[3]
 			param.direction = item[4]
 			local entity = _FACTORY.NewEntity(item[1], param)
-			entity.render.color:Set(255, 255, 255, 150)
+			--entity.render.color:Set(255, 255, 255, 150)
 		end
 	end
-	_SCENEMGR.navigation:InitPathfinderPassMap()
 end
 
 local function _InitNavigation(data)
@@ -172,8 +173,9 @@ local _loadFuncs = {
 local _playerPosition
 local _destPosition
 ---@param drawEntity fun():void
-function _SCENEMGR.Init(drawEntity)
+function _SCENEMGR.Init(drawEntity, unloadEntity)
 	_SCENEMGR._DrawEntity = drawEntity
+	_SCENEMGR._UnloadEntity = unloadEntity
 	_SCENEMGR._localPlayer = _PLAYERMGR.GetLocalPlayer()
 	_SCENEMGR.navigation = _Navigation.New()
 	_Movement.SetNavigation(_SCENEMGR.navigation)
@@ -185,14 +187,21 @@ end
 
 ---@param path string @ subpath of scene, e.g:"lorien/proto".
 function _SCENEMGR.LoadScene(path)
+	if not _SCENEMGR._firstLoad then
+		_SCENEMGR.UnLoad()
+	else
+		_SCENEMGR._firstLoad = false
+	end
+
 	local data = _RESOURCE.LoadSceneData(path)
+	_InitNavigation(data)
 	_LoadBackground(data, "far")
 	_LoadBackground(data, "mid")
 	_LoadFloor(data)
 	_LoadStuffAnimation(data, "closeback")
 	_LoadStuffAnimation(data, "nearsight")
-	_InitNavigation(data)
 	_LoadEntities(data)
+	_SCENEMGR.navigation:InitPathfinderPassMap()
 
 	_CAMERA.SetWorld(data.setting.width, data.setting.height)
 	_AUDIO.PlaySceneMusic(data.setting.bgm)
@@ -217,7 +226,6 @@ function _SCENEMGR.Update(dt)
 
 	--astar pathfinding test
 	--_SCENEMGR.navigation:FindPath(_playerPosition, _destPosition)
-
 end
 
 local function _DrawScene()
@@ -244,6 +252,15 @@ end
 
 function _SCENEMGR.GetLoadFuncs()
 	return _loadFuncs
+end
+
+function _SCENEMGR.UnLoad()
+	for _, layer in pairs(_SCENEMGR._layers) do
+		if layer.Clear then
+			layer:Clear()
+		end
+	end
+	_SCENEMGR._UnloadEntity()
 end
 
 

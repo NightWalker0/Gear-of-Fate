@@ -29,4 +29,13 @@ function _Vector3:Get()
     return self.x, self.y, self.z
 end
 
+---@param to Vector3
+function _Vector3:GetDistance(to)
+    local dx = math.abs(self.x - to.x)
+    local dy = math.abs(self.y - to.y)
+    local dz = math.abs(self.z - to.z)
+
+    return math.sqrt(dx ^ 2 + dy ^ 2 + dz ^ 2)
+end
+
 return _Vector3

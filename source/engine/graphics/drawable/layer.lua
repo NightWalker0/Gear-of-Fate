@@ -39,5 +39,8 @@ function _Layer:DoFuncForAll(func)
     end
 end
 
+function _Layer:Clear()
+    self._list = {}
+end
 
 return _Layer

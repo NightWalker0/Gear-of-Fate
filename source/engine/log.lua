@@ -5,20 +5,20 @@
 	Alter: 2021-04-04
 ]]
 
-_LOG = require("core.class")()
+LOG = require("core.class")()
 
-function _LOG:Init()
+function LOG:Init()
 
 end
 
-function _LOG.Debug(content, ...)
+function LOG.Debug(content, ...)
 	--os.time() os.date()
 	print(string.format(content, ...))
 end
 
-function _LOG.Error(content)
+function LOG.Error(content)
 	print("Error: " .. content)
 	error(content)
 end
 
-return _LOG
+return LOG

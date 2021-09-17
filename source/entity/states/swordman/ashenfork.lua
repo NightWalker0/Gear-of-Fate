@@ -40,7 +40,7 @@ function _Ashenfork:Enter()
 end
 
 function _Ashenfork:Update(dt)
-	_Base.AutoEndTrans(self)
+	_Base.AutoTransitionAtEnd(self)
 
 	if not self.effect[1] then
 		local effect = self:Effect("jumpattackhold.ani")

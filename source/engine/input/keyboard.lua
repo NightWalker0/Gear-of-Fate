@@ -68,7 +68,7 @@ function _InputKeyboard:AddMapping(mapping)
 		if mapping.control.type == _INPUT_DEFINE.CONTROL_TYPE.BUTTON then
 			self._buttonToActionEvent[mapping.control.code] = mapping.event.name
 		else
-			_LOG.Error("InputKeyboard: control type:%s is not supported on keyboard!", mapping.control.type)
+			LOG.Error("InputKeyboard: control type:%s is not supported on keyboard!", mapping.control.type)
 		end
 	elseif mapping.event.type == _INPUT_DEFINE.EVENT_TYPE.AXIS then
 		self._buttonToAxisEvent[mapping.control.code] = mapping.event.name

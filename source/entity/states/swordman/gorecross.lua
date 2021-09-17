@@ -4,11 +4,9 @@
 	Since: 2017-07-28
 	Alter: 2020-02-04
 ]]
-local _AUDIO = require("engine.audio")
-local _FACTORY = require("system.entityfactory") 
-local _Base = require "entity.states.base"
+local _Base = require("entity.states.base")
 
----@class State.GoreCross : State.Base
+---@class Entity.State.Swordman.GoreCross : Entity.State.Base
 ---@field protected _effectTicks table<number, number>
 ---@field protected _attackTicks table<number, number>
 local _GoreCross = require("core.class")(_Base)
@@ -22,7 +20,7 @@ end
 
 function _GoreCross:Enter()
 	_Base.Enter(self)
-	_AUDIO.PlaySound(self._soundDataSet.voice)
+	_Base.PlaySound(self._soundDataSet.voice)
 
 	---@param effect Entity
 	self._NewProjectile = function(effect)
@@ -35,12 +33,12 @@ function _GoreCross:Enter()
 			master = self._entity,
 			camp = self._entity.identity.camp,
 		}
-		_FACTORY.NewEntity(self._entityDataSet[3], param)
+		_Base.NewEntity(self._entityDataSet[3], param)
 	end
 
 	local param = { master = self._entity }
-	_FACTORY.NewEntity(self._entityDataSet[1], param)
-	self._crossEffect = _FACTORY.NewEntity(self._entityDataSet[2], param)
+	_Base.NewEntity(self._entityDataSet[1], param)
+	self._crossEffect = _Base.NewEntity(self._entityDataSet[2], param)
 	-- self._crossEffect.identity.destroyEvent:AddListener(self._crossEffect, self._NewProjectile)
 
 	self._combat:SetSoundGroup(self._soundDataSet.hitting)
@@ -49,10 +47,10 @@ end
 
 function _GoreCross:Update(dt)
 	local tick = self._body:GetTick()
-	if tick == self._effectTicks[1] or tick == self._effectTicks[2] then 
-		_AUDIO.PlaySound(self._soundDataSet.swing[1])
-	elseif tick == self._effectTicks[3] then 
-		_AUDIO.PlaySound(self._soundDataSet.swing[2])
+	if tick == self._effectTicks[1] or tick == self._effectTicks[2] then
+		_Base.PlaySound(self._soundDataSet.swing[1])
+	elseif tick == self._effectTicks[3] then
+		_Base.PlaySound(self._soundDataSet.swing[2])
 	end
 
 	if tick == self._attackTicks[1] then
@@ -65,7 +63,7 @@ function _GoreCross:Update(dt)
 		self._crossEffect = nil
 	end
 	
-	_Base.AutoEndTrans(self)
+	_Base.AutoTransitionAtEnd(self)
 end 
 
 function _GoreCross:Exit()

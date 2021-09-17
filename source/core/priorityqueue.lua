@@ -39,7 +39,7 @@ end
 
 function _PriorityQueue:Dequeue()
 	if self._count < 1 then
-		_LOG.Error("PriorityQueue.Dequeue - no element can be dequeue.")
+		LOG.Error("PriorityQueue.Dequeue - no element can be dequeue.")
 		return false
 	end
 

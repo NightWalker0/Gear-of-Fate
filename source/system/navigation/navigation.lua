@@ -69,7 +69,7 @@ function _Navigation:Init(x, y, w, h)
 	for i = 1, self._nCol * self._nRow do
 		self._passMap[i] = _PASSTYPE.YES
 	end
-	_LOG.Debug("Navigation.Init - nCol:%d nRow:%d", self._nCol, self._nRow)
+	LOG.Debug("Navigation.Init - nCol:%d nRow:%d", self._nCol, self._nRow)
 end
 
 function _Navigation:InitPathfinderPassMap()
@@ -83,23 +83,26 @@ function _Navigation:InitPathfinderPassMap()
 	self._pathfinder:SetPassMap(map2d, _PASSTYPE.YES)
 end
 
----@param start Vector2
----@param dest Vector2
-function _Navigation:FindPath(start, dest)
-	if not self:IsPositionInArea(start:Get()) or not self:IsPositionInArea(dest:Get()) then
-		_LOG.Error("Navigation:FindPath - start or dest position is not in area.")
+---@param sx number
+---@param sy number
+---@param dx number
+---@param dy number
+---@return table<int, Vector2>
+function _Navigation:FindPath(sx, sy, dx, dy)
+	if not self:IsPositionInArea(sx, sy) or not self:IsPositionInArea(dx, dy) then
+		LOG.Error("Navigation:FindPath - start or dest position is not in area.")
 		return _emptyPath
 	end
 
-	local startIndex = _Vector2.New(self:GetNodeIndexByPos(start:Get()))
-	local destIndex = _Vector2.New(self:GetNodeIndexByPos(dest:Get()))
+	local startIndex = _Vector2.New(self:GetNodeIndexByPos(sx, sy))
+	local destIndex = _Vector2.New(self:GetNodeIndexByPos(dx, dy))
 
 	if not self:GetNodePass(startIndex:Get()) then
-		_LOG.Error("Navigation:FindPath - start position is not passable.")
+		LOG.Error("Navigation:FindPath - start position is not passable.")
 		return _emptyPath
 	end
 	if not self:GetNodePass(destIndex:Get()) then
-		_LOG.Error("Navigation:FindPath - destination is not passable.")
+		LOG.Error("Navigation:FindPath - destination is not passable.")
 		return _emptyPath
 	end
 
@@ -111,9 +114,8 @@ function _Navigation:FindPath(start, dest)
 
 	local pathFinal = {}
 	for i = 1, #self._pathTable do
-		pathFinal[i] = _Vector2.New(self:GetNodePosition(self._pathTable[i].x, self._pathTable[i].y))
-		self._pathPoints[#self._pathPoints + 1] = pathFinal[i].x
-		self._pathPoints[#self._pathPoints + 1] = pathFinal[i].y
+		--pathFinal[i] = _Vector2.New(self:GetNodePosition(self._pathTable[i].x, self._pathTable[i].y))
+		pathFinal[i] = _Vector2.New(self._pathTable[i].x, self._pathTable[i].y)
 	end
 
 	return pathFinal
@@ -139,54 +141,18 @@ function _Navigation:Draw()
 		end
 	end
 
-	--draw path nodes
-	if #self._pathTable > 0 then
-		for y = 1, #self._pathfinder.scannedMap do
-			for x = 1, #self._pathfinder.scannedMap[y] do
-				local TempColor
-				TempColor = self._pathfinder.scannedMap[y][x] == self._pathfinder._closeValue and _PATHNODE_COLOR.SCANNED or TempColor
-				TempColor = self._pathfinder._closeMap[y][x] == self._pathfinder._closeValue and _PATHNODE_COLOR.CLOSE or TempColor
-				if TempColor then
-					local rx = self._area.x + (x - 1) * self._nodeSize.x
-					local ry = self._area.y + (y - 1) * self._nodeSize.y
-					_GRAPHICS.SetColor(TempColor:Get())
-					_GRAPHICS.DrawRect("fill", rx, ry, self._nodeSize:Get())
-					_GRAPHICS.ResetColor()
-				end
-			end
-		end
+	----draw path nodes
+	--if #self._pathTable > 0 then
+	--	self:DrawPath()
+	--end
 
-		for i = 1, #self._pathTable do
-			local nodeColor = _PATHNODE_COLOR.NORMAL
-			if i == 1 then
-				nodeColor = _PATHNODE_COLOR.START
-			elseif i == #self._pathTable then
-				nodeColor = _PATHNODE_COLOR.DEST
-			end
-
-			local x = self._area.x + (self._pathTable[i].x - 1) * self._nodeSize.x
-			local y = self._area.y + (self._pathTable[i].y - 1) * self._nodeSize.y
-			_GRAPHICS.SetColor(nodeColor:Get())
-			_GRAPHICS.DrawRect("fill", x, y, self._nodeSize:Get())
-			_GRAPHICS.ResetColor()
-			--_GRAPHICS.Print(i, x, y)
-		end
-		for i = 1, #self._pathPoints, 2 do
-			love.graphics.ellipse("line", self._pathPoints[i], self._pathPoints[i + 1], 10, 6)
-		end
-		if #self._pathPoints >= 4 then
-			_GRAPHICS.Line(self._pathPoints)
-		end
-	end
-
-
+	-- draw lines of grids
 	local y1 = self._area.y
 	local y2 = self._area.y + self._nodeSize.y * self._nRow
 	for i = 1, self._nCol + 1 do
 		local x = self._area.x + (i - 1) * self._nodeSize.x
 		_GRAPHICS.Line(x, y1, x, y2)
 	end
-
 
 	local x1 = self._area.x
 	local x2 = self._area.x + self._nodeSize.x * self._nCol
@@ -210,8 +176,56 @@ function _Navigation:Draw()
 		)
 	end
 
-	local x, y = self:GetNodePosition(1, 1)
+end
 
+---@param path table<int, Vector2>
+function _Navigation:DrawPath(path)
+	if not _SETTING.debug.navigation.path then
+		return
+	end
+
+	--for y = 1, #self._pathfinder.scannedMap do
+	--	for x = 1, #self._pathfinder.scannedMap[y] do
+	--		local TempColor
+	--		TempColor = self._pathfinder.scannedMap[y][x] == self._pathfinder._closeValue and _PATHNODE_COLOR.SCANNED or TempColor
+	--		TempColor = self._pathfinder._closeMap[y][x] == self._pathfinder._closeValue and _PATHNODE_COLOR.CLOSE or TempColor
+	--		if TempColor then
+	--			local rx = self._area.x + (x - 1) * self._nodeSize.x
+	--			local ry = self._area.y + (y - 1) * self._nodeSize.y
+	--			_GRAPHICS.SetColor(TempColor:Get())
+	--			_GRAPHICS.DrawRect("fill", rx, ry, self._nodeSize:Get())
+	--			_GRAPHICS.ResetColor()
+	--		end
+	--	end
+	--end
+
+	--for i = 1, #path do
+	--	local nodeColor = _PATHNODE_COLOR.NORMAL
+	--	if i == 1 then
+	--		nodeColor = _PATHNODE_COLOR.START
+	--	elseif i == #path then
+	--		nodeColor = _PATHNODE_COLOR.DEST
+	--	end
+	--
+	--	local x = self._area.x + (path[i].x - 1) * self._nodeSize.x
+	--	local y = self._area.y + (path[i].y - 1) * self._nodeSize.y
+	--	_GRAPHICS.SetColor(nodeColor:Get())
+	--	_GRAPHICS.DrawRect("fill", x, y, self._nodeSize:Get())
+	--	_GRAPHICS.ResetColor()
+	--	--_GRAPHICS.Print(i, x, y)
+	--end
+
+	self._pathPoints = {}
+	for i = 1, #path do
+		local x, y = self:GetNodePosition(path[i].x, path[i].y)
+		self._pathPoints[#self._pathPoints + 1] = x
+		self._pathPoints[#self._pathPoints + 1] = y
+	end
+
+	if #self._pathPoints >= 4 then --2 points at least
+		_GRAPHICS.Line(self._pathPoints)
+		_GRAPHICS.Points(self._pathPoints)
+	end
 end
 
 ---@param ox float @original x
@@ -222,10 +236,11 @@ end
 function _Navigation:AmendMovePosition(ox, oy, tx, ty, axis)
 	local ix, iy = self:GetNodeIndexByPos(tx, ty)
 	if ix < 1 or ix > self._nCol or iy < 1 or iy > self._nRow then
-		return ox, oy
+		return ox, oy, "bound"
 	end
 
 	local retx, rety = tx, ty
+	local collisionType = "none"
 	if not self:GetNodePass(ix, iy) then
 		local direction
 		if axis == "x" then
@@ -233,19 +248,21 @@ function _Navigation:AmendMovePosition(ox, oy, tx, ty, axis)
 			if direction == 1 then
 				retx = self._area.x + (ix - 1) * self._nodeSize.x - 1
 			elseif direction == -1 then
-				retx = self._area.x + ix * self._nodeSize.x
+				retx = self._area.x + ix * self._nodeSize.x + 1
 			end
+			collisionType = "obstacle_in_x"
 		else --y
 			direction = _MATH.Sign(ty - oy)
 			if direction == 1 then
 				rety = self._area.y + (iy - 1) * self._nodeSize.y - 1
 			elseif direction == -1 then
-				rety = self._area.y + iy * self._nodeSize.y
+				rety = self._area.y + iy * self._nodeSize.y + 1
 			end
+			collisionType = "obstacle_in_y"
 		end
 	end
 
-	return retx, rety
+	return retx, rety, collisionType
 end
 
 ---@param ix int
@@ -291,6 +308,15 @@ end
 
 function _Navigation:GetNodeSize()
 	return self._nodeSize:Get()
+end
+
+function _Navigation:IsInNode(x, y, nx, ny)
+	local nx1 = self._area.x + (nx - 1) * self._nodeSize.x
+	local ny1 = self._area.y + (ny - 1) * self._nodeSize.y
+	local nx2 = nx1 + self._nodeSize.y
+	local ny2 = ny1 + self._nodeSize.y
+
+	return x >= nx1 and x <= nx2 and y >= ny1 and y <= ny2
 end
 
 function _Navigation:IsPositionInArea(x, y)

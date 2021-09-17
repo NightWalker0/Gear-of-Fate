@@ -7,7 +7,7 @@
 local _Timer = require("utils.timer")
 local _Base  = require("entity.states.base")
 
----@class State.Lift : State.Base
+---@class State.Lift : Entity.State.Base
 local _Lift = require("core.class")(_Base)
 
 function _Lift:Ctor(data, name)
@@ -43,7 +43,7 @@ function _Lift:Enter(vz, az, vx, ax)
 	self._g = az
 	self._avatar:Play(self._animNameSet[1])
 	if vx == 0 then
-		self._movement:DisableEasemove()
+		self._movement:StopEasemove()
 	else
 		self._movement:EaseMove("x", vx, ax)
 	end
@@ -92,7 +92,7 @@ function _Lift:_Touchdown()
 		while self._avatar:GetFrame() < 5 do
 			self._avatar:NextFrame()
 		end
-		self._movement:DisableEasemove()
+		self._movement:StopEasemove()
 	end
 end
 
@@ -107,7 +107,7 @@ function _Lift:Update(dt)
 			self._movement:Set_g(g)
 		end
 	end
-	_Base.AutoEndTrans(self)
+	_Base.AutoTransitionAtEnd(self)
 end
 
 function _Lift:Exit()

@@ -46,7 +46,7 @@ end
 --- play ambient music
 function _AUDIO.PlayAmbientSound(name)
     _AUDIO.PlaySceneAudio(_ambientSonudData, "ambient/" .. name, _RESOURCE.LoadSound)
-    _ambientSonudData.source:setVolume(_SETTING.music)
+    _ambientSonudData.source:setVolume(_SETTING.ambient)
 end
 
 ---@param data table

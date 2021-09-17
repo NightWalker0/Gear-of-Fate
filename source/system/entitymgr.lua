@@ -111,4 +111,16 @@ function _EntityMgr.GetEntityList()
     return _EntityMgr._entityList
 end
 
+---Unload entities those are loaded dynamically when entering a new scene.
+function _EntityMgr.UnLoad()
+	local entity ---@type Entity
+	for i = #_EntityMgr._entityList, 1, -1 do
+		entity = _EntityMgr._entityList[i]
+		if not entity.identity.dontDestroyOnLoadScene then
+			table.remove(_EntityMgr._entityList, i)
+			_EntityMgr._count = _EntityMgr._count - 1
+		end
+	end
+end
+
 return _EntityMgr

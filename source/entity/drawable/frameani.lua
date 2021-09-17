@@ -37,10 +37,11 @@ local function _NewColliderGroup(aniData)
 end
 
 function _Frameani:Ctor(data)
-    _Base.Ctor(self, data and data.aniData or nil)
     self._aniName = ""
     self._colliderGroup = {}
     self._colliderGroupPool = {}
+
+    _Base.Ctor(self, data and data.aniData or nil)
 
     self.eventMap.setPosition:AddListener(self, self.UpdateCollider)
     self.eventMap.setScale:AddListener(self, self.UpdateCollider)
@@ -53,8 +54,7 @@ function _Frameani:Ctor(data)
         speed = 6,
         ARGB = {A = 255, R = 255, G = 0, B = 0},
         scale = {x = 1.5, y = 1.5, spd = 0.048},
-        shader = love.graphics.newShader(
-            [[
+        shaderCode = [[
                 extern number green;
                 vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
                 {
@@ -89,8 +89,7 @@ function _Frameani:Ctor(data)
                     GlowColor.g = green;
                     return GlowColor;
                 }
-            ]]
-        )
+        ]]
     }
     
 end

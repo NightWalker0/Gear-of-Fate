@@ -35,28 +35,27 @@ function _HUD:SetEntity(entity)
 end
 
 function _HUD:SetSkillModels()
-    local map = self._entity.input.skillInputMap
     local skills = self._entity.skills ---@type Entity.Component.Skills
-
     local shortcut ---@type GUI.Widgets.SkillShortcut
     local id = ""
-    local skillID = 0
     -- set simple skill shortcuts
     for x = 1, 6 do
         id = "skill_shortcut_" .. tostring(x)
         shortcut = self:GetWidgetById(id)
-        if map[string.upper(id)] then
-            skillID = skills:GetSkillIDByName(map[string.upper(id)])
-            shortcut:SetSkill(skills:GetSkillById(skillID))
+        local skill = skills:GetSkill("skill" .. x)
+        if skill then
+            shortcut:SetSkill(skill)
+            print("set hud skill", skill.name)
         end
     end
     -- set extended skill shortcuts
     for x = 1, 6 do
         id = "skill_shortcut_ex_" .. tostring(x)
         shortcut = self:GetWidgetById(id)
-        if map[string.upper(id)] then
-            skillID = skills:GetSkillIDByName(map[string.upper(id)])
-            shortcut:SetSkill(skills:GetSkillById(skillID))
+        local skill = skills:GetSkill("skillex" .. x)
+        if skill then
+            shortcut:SetSkill(skill)
+            print("set hud skill", skill.name)
         end
     end
 end

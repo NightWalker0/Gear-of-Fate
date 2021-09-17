@@ -10,7 +10,7 @@ local _AUDIO = require("engine.audio")
 local _FACTORY = require("system.entityfactory") 
 local _Base  = require("entity.states.base")
 
----@class State.Swordman.UpperSlash : State.Base
+---@class Entity.State.Swordman.UpperSlash : Entity.State.Base
 local _UpperSlash = require("core.class")(_Base)
 
 function _UpperSlash:Ctor(data, ...)
@@ -27,8 +27,8 @@ function _UpperSlash:Enter()
 end
 
 function _UpperSlash:Update(dt)
-	_Base.EaseMove(self)
-	_Base.AutoEndTrans(self)
+	_Base.EaseMove(self, self._process)
+	_Base.AutoTransitionAtEnd(self)
 	
 	if self._body:GetTick() == self._ticks[1] then
 		local param = {master = self._entity}

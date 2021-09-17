@@ -49,21 +49,22 @@ function _Equipment:Ctor(entity, data)
 
     for key, value in pairs(data) do
         if key ~= "class" then
-            self:Equip(value) 
+            self:Wear(value)
         end
     end
 
 end
 
---- equip the equipment and update animation
+--- Wear the equipment and update animation
 ---@param equ table equipment data 
 ---@param slotIndex string 
-function _Equipment:Equip(equ)
+function _Equipment:Wear(equ)
     if self._entity.identity.type == "character" then
         local slotIndex = _EQU_TYPE_ENUM[equ.type]
         self._equipments[slotIndex] = equ
         self.onEquipmentChanged:Notify(equ, "equiped")
     else -- for monster
+        -- accessory
         self._equipments[#self._equipments + 1] = equ
     end
     
@@ -75,7 +76,7 @@ function _Equipment:Equip(equ)
 end
 
 ---@param slot string 
-function _Equipment:Unequip(slot)
+function _Equipment:UnEquip(slot)
     -- statements
 end
 

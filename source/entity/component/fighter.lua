@@ -28,7 +28,7 @@ local _deathEffectData = {
 
 function _Fighter.HandleData(data)
     if data.deathSound then
-        data.deathSoundData = _RESOURCE.LoadSoundData(data.deathSound)
+        data.deathSoundDataSet = _RESOURCE.RecursiveLoad(data.deathSound, _RESOURCE.LoadSoundData)
     end
     
     if data.damageSound then
@@ -41,9 +41,9 @@ function _Fighter:Ctor(entity, data)
     self.isDead = false
     self.isBoss = false
     self.damageSoundDataSet = data.damageSoundDataSet
-    self._deathSoundData = data.deathSoundData
+    self._deathSoundDataSet = data.deathSoundDataSet
     self._deathProcess = 0
-    self._deathFlash = false--self._entity.identity.type == "character" and true or false
+    self._deathFlash = self._entity.identity.type == "character" and true or false
     self._deathFlashTimer = _Timer.New()
     self._deathFlashTime = 400
     self._deathFlashFreq = 2
@@ -60,15 +60,18 @@ function _Fighter:Update(dt)
                 self._deathFlashTimer:Start(self._deathFlashTime)
                 self._deathProcess = 2
             elseif self._entity.identity.type == "monster" then
-                
+                self._entity.render.renderObj:Play("down")
+                self._entity.render.renderObj:SetFrame(5)
+                self._deathFlashTimer:Start(self._deathFlashTime)
+                self._deathProcess = 2
             else
                 self._deathProcess = 2
             end
-            self._entity.movement:DisableEasemove()
+            self._entity.movement:StopEasemove()
             self._entity.movement.enable = false
 
-            if self._deathSoundData then
-                _AUDIO.PlaySound(self._deathSoundData)
+            if self._deathSoundDataSet then
+                _AUDIO.RandomPlay(self._deathSoundDataSet)
             end
         end
     elseif self._deathProcess == 2 then
@@ -93,6 +96,10 @@ end
 function _Fighter:Die(process)
     self.isDead = true
     self._deathProcess = 1
+    if self._deathFlash then
+        self._deathFlashTimer:Reset()
+        self._deathFlashCount = 0
+    end
 end
 
 function _Fighter:Reborn()

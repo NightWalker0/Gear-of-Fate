@@ -4,14 +4,12 @@
 	Since: 2017-07-28 21:54:14
 	Alter: 2020-10-15 12:40:40
 ]]
-local _AUDIO = require("engine.audio")
 local _TIME = require("engine.time")
-local _FACTORY = require("system.entityfactory") 
 local _CAMERA = require("system.scene.camera")
 local _Timer = require("utils.timer")
 local _Base  = require("entity.states.base")
 
----@class Entity.State.Swordman.Hopsmash : State.Base
+---@class Entity.State.Swordman.Hopsmash : Entity.State.Base
 local _Hopsmash = require("core.class")(_Base)
 
 function _Hopsmash:Ctor(data, name)
@@ -48,34 +46,40 @@ function _Hopsmash:Ctor(data, name)
 	self._touchdown = false
 	self._smash = true
 	--self._smash = false
+	self._switchProcess = false
 end 
 
 function _Hopsmash:Enter()
-	_Base.Enter(self)
-	
-	self._process = 1
-	self._holddownTimer:Start(self._holddownTimeMax * 1000)
 
-	self._OnHit = function(combat, entity)
-		local hitFrame = _TIME.GetFrame()
-		if hitFrame ~= self._hitFrame then
-			self._attackCount = self._attackCount + 1
-			if self._attackCount < self._attackTimes then
-				self._attackEnable = true
-				self._attackTimer:Start(self._attackInterval)
+	if self._process == 0 then
+		_Base.Enter(self)
+		self._process = 1
+		self._holddownTimer:Start(self._holddownTimeMax * 1000)
+
+		self._OnHit = function(combat, entity)
+			local hitFrame = _TIME.GetFrame()
+			if hitFrame ~= self._hitFrame then
+				self._attackCount = self._attackCount + 1
+				if self._attackCount < self._attackTimes then
+					self._attackEnable = true
+					self._attackTimer:Start(self._attackInterval)
+				end
+				self._hitFrame = hitFrame
 			end
-			self._hitFrame = hitFrame
 		end
+		self._combat:StartAttack(self._attackDataSet[1], self._OnHit)
+		self._combat:SetSoundGroup(self._soundDataSet.hitting.hsword)
+		self._movement.eventMap.topped:AddListener(self, self._Topped)
+		self._movement.eventMap.touchdown:AddListener(self, self._Touchdown)
+	else
+		self._switchProcess = true
 	end
-	self._combat:StartAttack(self._attackDataSet[1], self._OnHit)
-	self._combat:SetSoundGroup(self._soundDataSet.hitting.hsword)
-	self._movement.eventMap.topped:AddListener(self, self._Topped)
-	self._movement.eventMap.touchdown:AddListener(self, self._Touchdown)
+
 end
 
 function _Hopsmash:_Topped()
 	self._movement:Set_g(self._gravity * 2.25 * self._attackRate)
-	_AUDIO.PlaySound(self._soundDataSet.voice)
+	_Base.PlaySound(self._soundDataSet.voice)
 	while self._body:GetFrame() < 3 do
 		self._avatar:NextFrame()
 		print("hopsmash nextframe")
@@ -89,7 +93,7 @@ end
 function _Hopsmash:Update(dt)
 	if self._process == 1 then
 		self._holddownTimer:Tick(dt)
-		if self._input:IsReleased("hopsmash") or self._holddownTimer.isRunning == false then
+		if self._switchProcess or self._holddownTimer.isRunning == false then
 			self._holddownTime = self._holddownTimer:GetCount() / 1000
 			self._holddownTime = math.min(self._holddownTime, self._holddownTimeMax)
 
@@ -103,17 +107,18 @@ function _Hopsmash:Update(dt)
 			self._verticalSpeed = self._verticalSpeedBase * (self._holddownTime / self._holddownTimeMax) * root
 
 			local param = {master = self._entity}
-			_FACTORY.NewEntity(self._entityDataSet[1], param)
-			_FACTORY.NewEntity(self._entityDataSet[2], param)
+			_Base.NewEntity(self._entityDataSet[1], param)
+			_Base.NewEntity(self._entityDataSet[2], param)
 			self._avatar:Play(self._animNameSet[2])
 			self:_StartJump()
 			self._process = 2
+			self._switchProcess = false
 		end
 	elseif self._process == 2 then
 		self:_Attack(dt)
 		self:_SmashEffect()
 		self:_Movement(dt)
-		_Base.AutoEndTrans(self)
+		_Base.AutoTransitionAtEnd(self)
 	end 
 end 
 
@@ -149,8 +154,8 @@ function _Hopsmash:_SmashEffect()
 				master = self._entity,
 				camp = self._entity.identity.camp,
 			}
-			_FACTORY.NewEntity(self._entityDataSet[3], param)
-			_FACTORY.NewEntity(self._entityDataSet[4], param)
+			_Base.NewEntity(self._entityDataSet[3], param)
+			_Base.NewEntity(self._entityDataSet[4], param)
 		end
 		_CAMERA.Shake(self._shakeParam.time, -self._shakeParam.x * self._holddownTime, self._shakeParam.x * self._holddownTime, -self._shakeParam.y * self._holddownTime, self._shakeParam.y * self._holddownTime)
 		self._touchdown = false
@@ -160,9 +165,9 @@ end
 function _Hopsmash:_Movement(dt)
 	if self._entity.transform.position.z < 0 then
 		if self._movement:IsRising() then
-			self._movement:X_Move( self._forwardSpeed * self._entity.transform.direction)
+			self._movement:Move('x', self._forwardSpeed * self._entity.transform.direction)
 		elseif self._movement:IsFalling() then
-			self._movement:X_Move( self._forwardSpeed * self._entity.transform.direction * 0.35) -- * 0.25
+			self._movement:Move('x', self._forwardSpeed * self._entity.transform.direction * 0.35) -- * 0.25
 		end
 	end 
 end
@@ -176,6 +181,7 @@ function _Hopsmash:Exit()
 	self._touchdown = false
 	self._holddownTime = 0
 	self._process = 0
+	self._switchProcess = false
 end
 
 function _Hopsmash:IsFlawState()

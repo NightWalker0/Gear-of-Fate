@@ -6,7 +6,7 @@
 ]]
 local _Base  = require "entity.states.base"
 
----@class State.FrenzyAttack : State.Base
+---@class State.FrenzyAttack : Entity.State.Base
 local _FrenzyAttack = require("core.class")(_Base)
 
 function _FrenzyAttack:Ctor(data, ...)
@@ -51,8 +51,10 @@ function _FrenzyAttack:Enter()
 end
 
 function _FrenzyAttack:Update()    
-    local _leftHold = self._input:IsHold("LEFT")
-    local _rightHold = self._input:IsHold("RIGHT")
+    --local _leftHold = self._input:IsHold("LEFT")
+    --local _rightHold = self._input:IsHold("RIGHT")
+    local _leftHold = self._movement.moveInput.left
+    local _rightHold = self._movement.moveInput.right
     local _movable = true
 
     if (_leftHold and self._entity.transform.direction == 1) or
@@ -80,12 +82,12 @@ function _FrenzyAttack:Update()
         
         if _movable then
             if self._body:GetFrame() <= 2 then
-                self._movement:X_Move(self._entity.spd.x * self._entity.transform.direction )
+                self._movement:Move('x', self._entity.spd.x * self._entity.transform.direction )
             end 
     
             if (_leftHold and self._entity.transform.direction == -1 ) or
             (_rightHold and self._entity.transform.direction == 1 )   then
-                self._movement:X_Move(self._entity.spd.x * self.spdRate * self._entity.transform.direction )
+                self._movement:Move('x', self._entity.spd.x * self.spdRate * self._entity.transform.direction )
             end 
         end
 
@@ -107,13 +109,13 @@ function _FrenzyAttack:Update()
 
         if _movable then
             if self._body:GetFrame() < 4 then
-                self._movement:X_Move(self._entity.spd.x * self._entity.transform.direction )
+                self._movement:Move('x', self._entity.spd.x * self._entity.transform.direction )
             end 
             
             if (_leftHold and self._entity.transform.direction == -1 ) or
             (_rightHold and self._entity.transform.direction == 1 )   then
                 
-                self._movement:X_Move(self._entity.spd.x * self.spdRate  * self._entity.transform.direction )
+                self._movement:Move('x', self._entity.spd.x * self.spdRate  * self._entity.transform.direction )
             end
         end
 
@@ -137,12 +139,12 @@ function _FrenzyAttack:Update()
     elseif self._process == 4 then
         if self._body:GetFrame() < 3 then
             if _movable then
-                self._movement:X_Move(self._entity.spd.x * self._entity.transform.direction )
+                self._movement:Move('x', self._entity.spd.x * self._entity.transform.direction )
                 
                 if (_leftHold and self._entity.transform.direction == -1 ) or
                 (_rightHold and self._entity.transform.direction == 1 )   then
                     
-                    self._movement:X_Move(self._entity.spd.x * self.spdRate  * self._entity.transform.direction )
+                    self._movement:Move('x', self._entity.spd.x * self.spdRate  * self._entity.transform.direction )
                 end
             end
         end 
@@ -167,10 +169,6 @@ function _FrenzyAttack:Exit()
     for n=1,#self.effect do
         self.effect[n].playOver = true
     end
-end
-
-function _FrenzyAttack:GetTrans()
-	return self.trans
 end
 
 return _FrenzyAttack 

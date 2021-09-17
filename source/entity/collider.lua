@@ -75,6 +75,21 @@ function _Collider:Collide(opponent, selfKey, oppoKey)
     return false
 end
 
+---@param boxType string
+---@param x float
+---@param y float
+---@param z float
+function _Collider:CheckPoint(boxType, x, y, z)
+    local boxlist = self._boxlists[boxType]
+    for i = 1, #boxlist do
+        if boxlist[i]:CheckPoint(x, y, z) then
+            return true
+        end
+    end
+
+    return false
+end
+
 function _Collider:Draw()
     if not _SETTING.debug.collider then
         return 

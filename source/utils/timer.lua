@@ -4,6 +4,7 @@
 	Since: 2019-08-24 21:45
 	Alter: 2019-11-5 
 ]]
+local _MATH = require("engine.math")
 ---@class Utils.Timer
 ---@field protected _time milli
 ---@field protected _count milli
@@ -39,6 +40,7 @@ function _Timer:Tick(dt)
 end
 
 ---@param time milli
+---@param keepSurplus boolean
 function _Timer:Start(time, keepSurplus)
     self._count = (keepSurplus and self._count > self._time) and self._count - self._time or 0
     self._time = time
@@ -64,6 +66,10 @@ end
 
 function _Timer:GetCount()
     return self._count
+end
+
+function _Timer:GetProgress()
+    return _MATH.GetFixNumber(self._count / self._time)
 end
 
 return _Timer

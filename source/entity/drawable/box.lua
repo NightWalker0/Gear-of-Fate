@@ -94,7 +94,7 @@ function _Box:Collide(box)
 end
 
 function _Box:CheckPoint(x, y, z)
-    return self.xyRect:CheckPoint(x, y) and self.xzRect:CheckPoint(x, z)
+    return self.xyRect:CheckPoint(x, y) and self.xzRect:CheckPoint(x, y + z)
 end
 
 function _Box:Draw(colorA, colorB)

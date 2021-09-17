@@ -8,7 +8,7 @@ local _AUDIO = require("engine.audio")
 local _FACTORY = require("system.entityfactory") 
 local _Base = require "entity.states.base"
 
----@class Entity.State.Swordman.MoonlightSlash : State.Base
+---@class Entity.State.Swordman.MoonlightSlash : Entity.State.Base
 local _MoonlightSlash = require("core.class")(_Base)
 
 function _MoonlightSlash:Ctor(data, ...)
@@ -16,18 +16,24 @@ function _MoonlightSlash:Ctor(data, ...)
 	self.skillID = 77
 	self._keyFrames = data.keyFrames
 	self._ticks = data.ticks
+	self._switchProcess = false
+	self._process = 0
 end 
 
 function _MoonlightSlash:Enter()
-	_Base.Enter(self)
-	_AUDIO.PlaySound(self._soundDataSet.voice) 
-	self._process = 1
-	self._combat:SetSoundGroup(self._soundDataSet.hitting.hsword)
+	if self._process == 0 then
+		_Base.Enter(self)
+		_AUDIO.PlaySound(self._soundDataSet.voice)
+		self._process = 1
+		self._combat:SetSoundGroup(self._soundDataSet.hitting.hsword)
+	elseif self._process == 1 then
+		self._switchProcess = true
+	end
 end
 
 function _MoonlightSlash:Update(dt)
-	_Base.EaseMove(self)
-	_Base.AutoEndTrans(self)
+	_Base.EaseMove(self, self._process)
+	_Base.AutoTransitionAtEnd(self)
 
 	if self._process == 1 then
 		if self._body:GetTick() == self._ticks[1] then
@@ -36,9 +42,10 @@ function _MoonlightSlash:Update(dt)
 			_AUDIO.PlaySound(self._soundDataSet.swing[1])
 		end
 		if self._body:GetFrame() > self._keyFrames[1] then
-			if self._input:IsPressed("moonlightslash") then
+			if self._switchProcess then
 				self._avatar:Play(self._animNameSet[2])
 				self._process = 2
+				self._switchProcess = false
 				self._combat:StartAttack(self._attackDataSet[self._process])
 				self._combat:ClearAttackedList()
 				self:NewEffect()
@@ -51,6 +58,8 @@ end
 
 function _MoonlightSlash:Exit()
 	_Base.Exit(self)
+	self._process = 0
+	self._switchProcess = false
 end
 
 function _MoonlightSlash:NewEffect()

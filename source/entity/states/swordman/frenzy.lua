@@ -9,7 +9,7 @@
 local _AUDIOMGR = require "engine.audio"
 local _Base  = require "entity.states.base"
 
----@class State.Frenzy : State.Base
+---@class State.Frenzy : Entity.State.Base
 local _Frenzy = require("core.class")(_Base)
 
 function _Frenzy:Ctor(data, ...)

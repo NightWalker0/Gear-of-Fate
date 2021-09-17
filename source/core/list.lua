@@ -46,7 +46,7 @@ end
 
 function _List:Get(i)
 	if i < 1 or i > self:Count() then
-		_LOG.Error("List.Get - index is out of range.")
+		LOG.Error("List.Get - index is out of range.")
 		return nil;
 	end
 
@@ -79,7 +79,7 @@ end
 ---@param action fun(value:T):void
 function _List:ForEach(action)
 	if action == nil or type(action) ~= "function" then
-		_LOG.Error("List.ForEach - illegal action.")
+		LOG.Error("List.ForEach - illegal action.")
 		return false
 	end
 

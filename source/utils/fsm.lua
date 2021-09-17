@@ -2,7 +2,7 @@
 	Desc: Finite State Machine.
  	Author: SerDing
 	Since: 2017-07-28 21:54:14
-	Alter: 2017-07-30 23:28:48
+	Alter: 2021-05-04 23:28:48
 ]]
 
 ---@class Utils.FSM
@@ -42,15 +42,18 @@ function _FSM:SetState(name, ...)
 end
 
 ---@param name string
----@param state State.Base
+---@param state Entity.State.Base
 function _FSM:RegState(name, state)
-	state._STATE = self
 	self._states[name] = state
 	-- print("_FSM:RegState: ", name, state)
 end
 
 function _FSM:GetCurState()
 	return self.curState
+end
+
+function _FSM:GetState(name)
+	return self._states[name]
 end
 
 function _FSM:OnCurStateExit(entity)

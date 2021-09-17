@@ -17,7 +17,7 @@ local _frame = 0
 local _time = 0
 local _lastFrameTime = love.timer.getTime()
 local _STANDARD_DT = _MATH.GetFixNumber(1 / _SETTING.fps)
-_LOG.Debug("TIME _STANDARD_DT:%.3f", _STANDARD_DT)
+LOG.Debug("TIME _STANDARD_DT:%.3f", _STANDARD_DT)
 
 function _TIME.Update(dt)
 	_frame = _frame > _FRAME_MAX and 0 or _frame + 1

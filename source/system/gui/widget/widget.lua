@@ -53,12 +53,6 @@ end
 function _Widget:_OnDraw()
 end
 
-function _Widget:ButtonPressed(btn)
-end
-
-function _Widget:ButtonReleased(btn)
-end
-
 function _Widget:MouseEntered()
 end
 

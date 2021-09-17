@@ -32,7 +32,8 @@ local _creationOrder = {
     "hitstop",
     "effect",
     "projectile",
-    "equipment", 
+    "equipment",
+    "obstacle"
 }
 
 ---@param data string @entity instance data path
@@ -69,6 +70,10 @@ function _FACTORY.NewEntity(data, param)
         if data[key] then
             entity[key] = data[key].class.New(entity, data[key], param)
         end 
+    end
+
+    for _, component in pairs(entity) do
+        component:Init()
     end
 
     _ENTITYMGR.AddEntity(entity)

@@ -18,6 +18,8 @@ local _RESOURCE = require("engine.resource")
 ---@field protected _dynamic boolean
 local _Avatar = require("core.class")(_Layer)
 
+local _DEFAULT_KEY = "body"
+
 function _Avatar.HandleData(data)
     if data.animPathSet then
         data.aniDatas = {}
@@ -45,6 +47,10 @@ function _Avatar:Ctor(data)
     if self._dynamic == false then
         self._aniDatas = data.aniDatas
         self:Play()
+    end
+    if data.init then
+        self:InitAnimDatas(data.init.animNameSet)
+        self:Play(data.init.defaultAnim)
     end
 end 
 
@@ -112,8 +118,7 @@ function _Avatar:AddPart(key)
 end
 
 function _Avatar:GetPart(key)
-    key = key or "skin"
-    return self._aniMap[key]
+    return self._aniMap[key or _DEFAULT_KEY]
 end
 
 function _Avatar:NextFrame()
@@ -159,12 +164,12 @@ function _Avatar:GetColliderGroup()
     return colliders
 end
 
--- function _Avatar:GetHeight()
---     return self:CallChildGetFunc("GetHeight")
--- end
+function _Avatar:GetHeight(key)
+    return self._aniMap[key or _DEFAULT_KEY]:GetWidth()
+end
 
--- function _Avatar:GetHeight()
---     return self:CallChildGetFunc("GetHeight")
--- end
+function _Avatar:GetHeight(key)
+    return self._aniMap[key or _DEFAULT_KEY]:GetHeight()
+end
 
 return _Avatar

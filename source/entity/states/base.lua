@@ -4,10 +4,13 @@
 	Since: 2019-06-08
 	Alter: 2020-10-04
 ]]
+local _Event = require("core.event")
 local _RESMGR = require("system.resource.resmgr")
 local _RESOURCE = require("engine.resource")
+local _AUDIO = require("engine.audio")
+local _FACTORY = require("system.entityfactory")
 
----@class State.Base
+---@class Entity.State.Base
 ---@field protected _name string
 ---@field protected _entity Entity
 ---@field public _animNameSet table<number, string>
@@ -39,11 +42,12 @@ function _State:Ctor(data, name)
 	self._tags = data.tags
 	self._nextState = data.nextState
 	self._easeMoveData = data.easeMoveData
-	self._trans = data.trans
+	self._transitionMap = data.transition
 	self._animNameSet = data.animNameSet
 	self._soundDataSet = data.soundDataSet
 	self._entityDataSet = data.entityDataSet
 	self._attackDataSet = data.attack
+	self.onExit = _Event.New()
 end
 
 function _State:Init(entity)
@@ -79,16 +83,16 @@ end
 function _State:Update(dt)
 end
 
-function _State:AutoEndTrans()
+function _State:AutoTransitionAtEnd()
 	if self:HasTag("autoTrans") then
-		self._STATE:AutoTrans(self._nextState)
+		self._STATE:AutoTranslateAtEnd(self._nextState)
 	end
 end
 
-function _State:EaseMove()
+function _State:EaseMove(phase)
 	local main = self._avatar:GetPart()
 	for _, data in pairs(self._easeMoveData) do
-		if self._process == data.process then
+		if phase == data.phase then
 			if main:GetFrame() == data.frame then
 				self._movement:EaseMove(data.param.type, data.param.v, data.param.a, data.param.addRate or 0)
 			end
@@ -101,7 +105,25 @@ function _State:Exit()
 		self._entity.render.timeScale = 1.0
 	end 
 	self._combat:FinishAttack()
-	self._movement:DisableEasemove()
+	self._movement:StopEasemove()
+	self.onExit:Notify()
+end
+
+---@param soundData SoundData|string
+function _State.PlaySound(soundData)
+	_AUDIO.PlaySound(soundData)
+end
+
+---@param soundDataSet table<int, SoundData>
+function _State.RandomPlaySound(soundDataSet)
+	_AUDIO.RandomPlay(soundDataSet)
+end
+
+---@param data System.RESMGR.EntityData|string @data table or  filepath of data
+---@param param table
+---@return Entity
+function _State.NewEntity(data, param)
+	return _FACTORY.NewEntity(data, param)
 end
 
 function _State:HasTag(tag)
@@ -114,6 +136,10 @@ end
 
 function _State:GetName()
 	return self._name
+end
+
+function _State:GetTransitions()
+	return self._transitionMap
 end
 
 return _State

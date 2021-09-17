@@ -4,11 +4,13 @@
 	Since: 2019-11-07 
 	Alter: 2017-11-07 
 ]]
-local _GRAPHICS = require("engine.graphics.graphics")
+local _GRAPHICS = require("engine.graphics")
+local _MATH = require("engine.math")
 local _Vector2 = require("utils.vector2")
 local _Vector3 = require("utils.vector3")
-local _Base = require("entity.component.base")
 local _SETTING = require("setting")
+local _Base = require("entity.component.base")
+
 
 ---@class Entity.Component.Transform : Entity.Component.Base
 ---@field public position Vector3
@@ -46,6 +48,12 @@ end
 ---@param transform Entity.Component.Transform
 function _Transform:IsInBackOf(transform)
 	return self.direction == transform.direction and (transform.position.x - self.position.x) * self.direction > 0
+end
+
+---@param position Vector3
+function _Transform:FaceTo(position)
+	local sign = _MATH.Sign(position.x - self.position.x)
+	self.direction = sign == 0 and 1 or sign
 end
 
 return _Transform
