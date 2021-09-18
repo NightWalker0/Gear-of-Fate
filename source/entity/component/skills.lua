@@ -68,7 +68,7 @@ function _SkillComponent:CastSkill(id)
 	if skill then
 		skill:Cast()
 		self._curSkill = skill
-		--self.world.eventMgr.Notify(EEVENT.SKILL_CAST, skill, self._entity)
+		--self.world.eventMgr.Notify(EEvent.SKILL_CAST, skill, self._entity)
 	end
 end
 
