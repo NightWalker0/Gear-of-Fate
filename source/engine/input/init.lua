@@ -4,6 +4,7 @@
 	Since: 2018-04-06
 	Alter: 2019-10-24
 ]]
+require("engine.input.inputdefine")
 local _Event = require("core.event")
 local _RESOURCE = require("engine.resource")
 local _Mouse = require("engine.input.mouse")

@@ -68,6 +68,10 @@ function _Timer:GetCount()
     return self._count
 end
 
+function _Timer:GetTime()
+    return self._time
+end
+
 function _Timer:GetProgress()
     return _MATH.GetFixNumber(self._count / self._time)
 end

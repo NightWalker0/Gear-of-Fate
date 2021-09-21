@@ -10,7 +10,6 @@
 local _Vector2 = require("utils.vector2")
 local _MATH = require("engine.math")
 local _INPUT = require("engine.input") ---@type Engine.Input
-local _INPUT_DEFINE = require("engine.input.inputdefine")
 local _Mouse = require("engine.input.mouse")
 local _GRAPHICS = require("engine.graphics")
 local _Color = require("engine.graphics.config.color")
@@ -236,13 +235,13 @@ function _UIMGR.OnMouseMove(_, x, y, dx, dy)
 end
 
 function _UIMGR.HandleAction(_, action, state)
-    if state == _INPUT_DEFINE.STATE.PRESSED then
+    if state == EInput.STATE.PRESSED then
         if action == "main-ui" then
             this.OnOff("inventory")
         end
     end
 
-    if state == _INPUT_DEFINE.STATE.RELEASED then
+    if state == EInput.STATE.RELEASED then
 
     end
 end

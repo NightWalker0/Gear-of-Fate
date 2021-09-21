@@ -54,10 +54,10 @@ function _Skill:Init()
 	local data = self._data
 	if data.inputEvent.name ~= "uncertain" then
 		if data.inputEvent.state == "ALL" then
-			self._entityInput:BindAction(data.inputEvent.name, self._entityInput.STATE.PRESSED, self, self._InputCallback)
-			self._entityInput:BindAction(data.inputEvent.name, self._entityInput.STATE.RELEASED, self, self._InputCallback)
+			self._entityInput:BindAction(data.inputEvent.name, EInput.STATE.PRESSED, self, self._InputCallback)
+			self._entityInput:BindAction(data.inputEvent.name, EInput.STATE.RELEASED, self, self._InputCallback)
 		else
-			self._entityInput:BindAction(data.inputEvent.name, self._entityInput.STATE[data.inputEvent.state], self, self._InputCallback)
+			self._entityInput:BindAction(data.inputEvent.name, EInput.STATE[data.inputEvent.state], self, self._InputCallback)
 		end
 		--_LOG.Debug("Skill BindAction:%s %s", data.inputEvent.name, data.inputEvent.state)
 	end
@@ -168,6 +168,7 @@ function _Skill:IsInAttackRange(target)
 		local direction = transform.direction
 		self.collider:Set(position.x, position.y, position.z, scale.x * direction, scale.y)
 		local targetColliders = target.render:GetColliders()--todo:获取不到colliders
+		LOG.Debug("Skill.IsInAttackRange: targetColliders:" .. tostring(#targetColliders))
 		for i = 1, #targetColliders do
 			if self.collider:Collide(targetColliders[i], "attack", "damage") then
 				return true

@@ -26,9 +26,9 @@ function _Roar:Update(dt)
 		_Base.PlaySound(self._soundDataSet.voice)
 	end
 
-	if self._body:GetTick() == self.ticks.secAttack then
-		self._combat:StartAttack(self._attackDataSet[1])
-	end
+	--if self._body:GetTick() == self.ticks.secAttack then
+	--	self._combat:StartAttack(self._attackDataSet[1])
+	--end
 
 	_Base.AutoTransitionAtEnd(self)
 end

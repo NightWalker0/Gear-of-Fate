@@ -10,7 +10,6 @@
 ]]
 local _Event = require("core.event")
 local _INPUT = require("engine.input") ---@type Engine.Input
-local _INPUT_DEFINE = require("engine.input.inputdefine")
 local _Base = require("entity.component.base")
 
 ---@class Entity.Component.Input : Engine.Input.InputHandler
@@ -20,15 +19,13 @@ local _Base = require("entity.component.base")
 ---@field public skillInputMap table<string, string>
 local _InputComponent = require("core.class")(_Base)
 
-_InputComponent.STATE = _INPUT_DEFINE.STATE
-
 function _InputComponent:Ctor(entity, data)
     _Base.Ctor(self, entity)
     self._actionState = {}
     self._actionBindings = {
-        [_INPUT_DEFINE.STATE.PRESSED] = {},
-        [_INPUT_DEFINE.STATE.DOWN] = {},
-        [_INPUT_DEFINE.STATE.RELEASED] = {},
+        [EInput.STATE.PRESSED] = {},
+        [EInput.STATE.DOWN] = {},
+        [EInput.STATE.RELEASED] = {},
     }
     self._axisBindings = {
         movex = _Event.New(),

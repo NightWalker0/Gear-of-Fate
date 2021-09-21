@@ -52,10 +52,10 @@ function _NavMove:Update(dt)
 
 	if reach or self._nodeIndex == 1 then
 		--print("NavMove, reach node")
-		self._input:InputAction("move-left", self._input.STATE.RELEASED)
-		self._input:InputAction("move-right", self._input.STATE.RELEASED)
-		self._input:InputAction("move-up", self._input.STATE.RELEASED)
-		self._input:InputAction("move-down", self._input.STATE.RELEASED)
+		self._input:InputAction("move-left", EInput.STATE.RELEASED)
+		self._input:InputAction("move-right", EInput.STATE.RELEASED)
+		self._input:InputAction("move-up", EInput.STATE.RELEASED)
+		self._input:InputAction("move-down", EInput.STATE.RELEASED)
 
 		self._nodeIndex = self._nodeIndex + 1
 		if self._nodeIndex > #self._path then -- reach destination node
@@ -73,11 +73,11 @@ function _NavMove:Update(dt)
 			local action = ""
 			if self._direction.x ~= 0 then
 				action = self._direction.x > 0 and "move-right" or "move-left"
-				self._input:InputAction(action, self._input.STATE.PRESSED)
+				self._input:InputAction(action, EInput.STATE.PRESSED)
 			end
 			if self._direction.y ~= 0 then
 				action = self._direction.y > 0 and "move-down" or "move-up"
-				self._input:InputAction(action, self._input.STATE.PRESSED)
+				self._input:InputAction(action, EInput.STATE.PRESSED)
 			end
 
 			--self.isMoving = true
@@ -101,10 +101,10 @@ function _NavMove:StopMove()
 	self._nodeIndex = 1
 	self._direction:Set(0, 0)
 	self.isMoving = false
-	self._input:InputAction("move-left", self._input.STATE.RELEASED)
-	self._input:InputAction("move-right", self._input.STATE.RELEASED)
-	self._input:InputAction("move-up", self._input.STATE.RELEASED)
-	self._input:InputAction("move-down", self._input.STATE.RELEASED)
+	self._input:InputAction("move-left", EInput.STATE.RELEASED)
+	self._input:InputAction("move-right", EInput.STATE.RELEASED)
+	self._input:InputAction("move-up", EInput.STATE.RELEASED)
+	self._input:InputAction("move-down", EInput.STATE.RELEASED)
 end
 
 return _NavMove

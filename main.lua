@@ -6,7 +6,6 @@ require("engine.resource")
 require("engine.audio")
 local _INPUT = require("engine.input")
 local _TIME = require("engine.time")
-local _SETTING = require("setting")
 local _GAME = require("game")
 
 local _lastSecondTime = 0

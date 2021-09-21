@@ -12,22 +12,28 @@
 ---@field public eventMgr System.EventManager
 local _World = require("core.class")()
 
-EWorldState = {
-	LoadLevel = 1,
-	InLevel = 2,
-}
+--EWorldState = {
+--	LoadLevel = 1,
+--	InLevel = 2,
+--}
 
-function _World:Ctor()
+function _World:Ctor(levelIds)
+	self.levelIds = levelIds
+	self.levelMap = {}
+
 	self.entityMgr = nil
 	self.playerMgr = nil
 	self.eventMgr = nil
-	self.levelMap = {}
 	self.currentLevel = nil
 	self.rate = 1.0
 end
 
 function _World:Enter()
-
+	--load levels into levelMap
+	for i = 1, #self.levelIds do
+		local id = self.levelIds[i]
+		self.levelMap[id] = self:LoadLevel(id)
+	end
 end
 
 function _World:Update(dt)
@@ -49,16 +55,18 @@ function _World:SwitchLevel(levelId)
 	collectgarbage()
 end
 
-function _World:ChangeState(key)
-	self.state = key
-	--switch process new state enter and old state exit
-	if key == EWorldState.LoadLevel then
-		 self:LoadLevel()
-	end
-end
+--function _World:ChangeState(key)
+--	self.state = key
+--	--switch process new state enter and old state exit
+--	if key == EWorldState.LoadLevel then
+--		 self:LoadLevel()
+--	end
+--end
 
-function _World:LoadLevel()
-
+function _World:LoadLevel(levelId)
+	local level
+	--load
+	return level
 end
 
 return _World

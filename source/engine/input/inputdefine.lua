@@ -4,7 +4,7 @@
 --- DateTime: 2021/4/17 17:36
 ---
 
-local _INPUT_DEFINE = {
+EInput = {
 	STATE = {
 		PRESSED = 1,
 		DOWN = 2,
@@ -23,5 +23,3 @@ local _INPUT_DEFINE = {
 		AXIS_BUTTON = 6,
 	},
 }
-
-return _INPUT_DEFINE

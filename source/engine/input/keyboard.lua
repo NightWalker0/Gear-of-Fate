@@ -5,7 +5,6 @@
 	Alter: 2021-04-13
 ]]
 local _Event = require("core.event")
-local _INPUT_DEFINE = require("engine.input.inputdefine")
 local _InputDevice = require("engine.input.inputdevice")
 
 ---@class Engine.Input.Keyboard : Engine.Input.InputDevice
@@ -42,14 +41,14 @@ end
 function _InputKeyboard:Press(button)
 	_InputDevice.Press(self, button)
 	self:AnalogAxisAway(self._buttonToAxisEvent[button], 1)
-	self._INPUT.HandleAction(self._buttonToActionEvent[button], _INPUT_DEFINE.STATE.PRESSED)
+	self._INPUT.HandleAction(self._buttonToActionEvent[button], EInput.STATE.PRESSED)
 	self._INPUT.SetMode(self._deviceType)
 	self.onKeyPress:Notify(button)
 end
 
 function _InputKeyboard:Release(button)
 	_InputDevice.Release(self, button)
-	self._INPUT.HandleAction(self._buttonToActionEvent[button], _INPUT_DEFINE.STATE.RELEASED)
+	self._INPUT.HandleAction(self._buttonToActionEvent[button], EInput.STATE.RELEASED)
 	self._INPUT.SetMode(self._deviceType)
 	self.onKeyRelease:Notify(button)
 	--TODO：设置模拟轴值减少
@@ -64,13 +63,13 @@ end
 
 ---@param mapping Engine.Input.InputMapping
 function _InputKeyboard:AddMapping(mapping)
-	if mapping.event.type == _INPUT_DEFINE.EVENT_TYPE.ACTION then
-		if mapping.control.type == _INPUT_DEFINE.CONTROL_TYPE.BUTTON then
+	if mapping.event.type == EInput.EVENT_TYPE.ACTION then
+		if mapping.control.type == EInput.CONTROL_TYPE.BUTTON then
 			self._buttonToActionEvent[mapping.control.code] = mapping.event.name
 		else
 			LOG.Error("InputKeyboard: control type:%s is not supported on keyboard!", mapping.control.type)
 		end
-	elseif mapping.event.type == _INPUT_DEFINE.EVENT_TYPE.AXIS then
+	elseif mapping.event.type == EInput.EVENT_TYPE.AXIS then
 		self._buttonToAxisEvent[mapping.control.code] = mapping.event.name
 	end
 end

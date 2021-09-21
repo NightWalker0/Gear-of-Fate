@@ -30,13 +30,13 @@ function _Button:Ctor(name, text, x, y, stylePath)
         normal = _Sprite.New(),
         light = _Sprite.New(),
         pressed = _Sprite.New(),
-
+        selected = _Sprite.New(),
+        disable = _Sprite.New(),
     }
     self._sprites.normal:SetImage(self._style[1])
     self._sprites.light:SetImage(self._style[2])
     self._sprites.pressed:SetImage(self._style[3])
     if self._style[4] then
-        self._sprites.disable = _Sprite.New()
         self._sprites.disable:SetImage(self._style[4])
     end
     if self._style[5] then
@@ -63,7 +63,6 @@ end
 
 function _Button:Init()
     _Widget.Init(self)
-
 end
 
 function _Button:_OnDraw()

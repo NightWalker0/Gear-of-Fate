@@ -20,9 +20,9 @@ local _AiComponent = require("core.class")(_Base)
 
 local _DEFAULT_STATE = "wander"
 EAIState = {
-	WANDER = 1,
-	PURSUIT = 2,
-	ATTACK = 3,
+	Wander = 1,
+	Pursuit = 2,
+	Attack = 3,
 }
 
 function _AiComponent.HandleData(data)
@@ -39,8 +39,8 @@ function _AiComponent:Ctor(entity, data)
 	self.moveTimer = _Timer.New()
 	self.attackTimer = _Timer.New()
 	self.navmove = _NavMove.New()
-	self.targetSelector = _TargetSelector.New(data.sightRange)
-	self.skillSelector = _SkillSelector.New()
+	--self.targetSelector = _TargetSelector.New(data.sightRange)
+	--self.skillSelector = _SkillSelector.New()
 	self._fsm = _Fsm.New()
 
 	self.target = nil
@@ -61,8 +61,8 @@ function _AiComponent:Init()
 	self.navigation = _SCENEMGR.navigation
 
 	self.navmove:Init(self._entity, self.navigation)
-	self.targetSelector:Init(self._entity)
-	self.skillSelector:Init(self._entity)
+	--self.targetSelector:Init(self._entity)
+	--self.skillSelector:Init(self._entity)
 
 	for _, value in pairs(self._fsm._states) do
 		value:Init(self._entity, self)
@@ -71,12 +71,15 @@ function _AiComponent:Init()
 end
 
 function _AiComponent:Update(dt)
+	if self._entity.fighter.isDead then
+		return
+	end
+
 	if not self.navmove.isMoving then
 		self.moveTimer:Tick(dt)
 	end
-	if self._fsm:GetState("attack").skillFinish then
-		self.attackTimer:Tick(dt)
-	end
+
+	self.attackTimer:Tick(dt)
 
 	self._fsm:Update(dt)
 end
@@ -84,7 +87,9 @@ end
 function _AiComponent:Draw()
 end
 
-function _AiComponent:RandomPlanByWeight(planWeightArr, planFuncArr)
+---@param planWeightArr table<int, int>
+---@param planFuncArr table<int, function>
+function _AiComponent:ExcuteRandomPlan(planWeightArr, planFuncArr)
 	local totalWeight = 0
 	local checkWeight = 0
 	for i = 1, #planWeightArr do
@@ -143,6 +148,8 @@ function _AiComponent:SelectSkill(entity, target)
 				return skill
 			end
 		end
+		LOG.Debug("No suitable skill")
+		return nil
 	end
 end
 

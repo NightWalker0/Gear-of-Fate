@@ -25,26 +25,33 @@ end
 ---@param aic Entity.Component.AIC
 function _Pursuit:Init(entity, aic)
 	_Base.Init(self, entity, aic)
-
-	self._skillSelector = aic.skillSelector
 end
 
 function _Pursuit:Enter()
-	self._target = self._targetSelector.target
-	self._skillSelector:SetTarget(self._aic.target)
 	self._lastTargetPosition:Set(self._aic.target.transform.position:Get())
 	--self._moveTimer:Start(self._moveInterval)
 	--_LOG.Debug("pursuit, start move interval:%.3f", self._moveInterval)
 end
 
 function _Pursuit:Update(dt)
+	if self._aic.target  then
+		if not self._aic.attackTimer.isRunning then
+			local skill = self._aic:SelectSkill()
+			if skill then
+				self.FSM:SetState("attack", skill)
+			end
+		else
+			LOG.Debug("Ai_pursuit, still in attack gap:%d/%d.",
+					self._aic.attackTimer:GetCount(), self._aic.attackTimer:GetTime())
+		end
+	end
+
 	if self._hasReachedDest and not self._moveTimer.isRunning then
-		--self._aic:SearchTarget()
 		if self._aic.target.fighter.isDead then
+			self._aic.target = nil
 			self.FSM:SetState(_RETURN_STATE)
 			LOG.Debug("Ai_pursuit, no target.")
 		else
-			self._skillSelector:SetTarget(self._aic.target)
 			self._lastTargetPosition:Set(self._aic.target.transform.position:Get())
 			local destx, desty = self:GetDestination()
 			LOG.Debug("Ai_pursuit, get destination:%f,%f", destx, desty)
@@ -61,15 +68,6 @@ function _Pursuit:Update(dt)
 			end
 		end
 	end
-
-	if self._aic.target then
-		--local skill = self._skillSelector:Run()
-		local skill = self._aic:SelectSkill()
-		if skill and not self._aic.attackTimer.isRunning then
-			self.FSM:SetState("attack", skill)
-		end
-	end
-
 	self._hasReachedDest = self._navmove:Update(dt)
 	if self._hasReachedDest then
 		if self._aic.target and not self._hasFixedDirection then

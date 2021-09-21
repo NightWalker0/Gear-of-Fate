@@ -25,33 +25,33 @@ end
 
 function _Move:Init(entity)
     _Base.Init(self, entity)
-    self._input:BindAction("move-left", self._input.STATE.PRESSED, nil, function()
+    self._input:BindAction("move-left", EInput.STATE.PRESSED, nil, function()
         self._movement.moveInput.left = true
         self._movement.moveSignalTime.left = _TIME.GetTime(true)
     end)
-    self._input:BindAction("move-right", self._input.STATE.PRESSED, nil, function()
+    self._input:BindAction("move-right", EInput.STATE.PRESSED, nil, function()
         self._movement.moveInput.right = true
         self._movement.moveSignalTime.right = _TIME.GetTime(true)
     end)
-    self._input:BindAction("move-up", self._input.STATE.PRESSED, nil, function()
+    self._input:BindAction("move-up", EInput.STATE.PRESSED, nil, function()
         self._movement.moveInput.up = true
         self._movement.moveSignalTime.down = _TIME.GetTime(true)
     end)
-    self._input:BindAction("move-down", self._input.STATE.PRESSED, nil, function()
+    self._input:BindAction("move-down", EInput.STATE.PRESSED, nil, function()
         self._movement.moveInput.down = true
         self._movement.moveSignalTime.up = _TIME.GetTime(true)
     end)
 
-    self._input:BindAction("move-left", self._input.STATE.RELEASED, nil, function()
+    self._input:BindAction("move-left", EInput.STATE.RELEASED, nil, function()
         self._movement.moveInput.left = false
     end)
-    self._input:BindAction("move-right", self._input.STATE.RELEASED, nil, function()
+    self._input:BindAction("move-right", EInput.STATE.RELEASED, nil, function()
         self._movement.moveInput.right = false
     end)
-    self._input:BindAction("move-up", self._input.STATE.RELEASED, nil, function()
+    self._input:BindAction("move-up", EInput.STATE.RELEASED, nil, function()
         self._movement.moveInput.up = false
     end)
-    self._input:BindAction("move-down", self._input.STATE.RELEASED, nil, function()
+    self._input:BindAction("move-down", EInput.STATE.RELEASED, nil, function()
         self._movement.moveInput.down = false
     end)
 end

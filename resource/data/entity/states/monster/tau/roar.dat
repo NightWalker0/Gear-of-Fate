@@ -24,8 +24,8 @@ return {
 				v = -80,
 				a = 350
 			},
-			selfstop = 0,
-			hitstop = 500,
+			selfstop = 40,
+			hitstop = 150,
 			damage = 18,
 		},
 	},

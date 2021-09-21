@@ -4,7 +4,6 @@
 	Since: 2021-04-13
 	Alter: 2021-04-14
 ]]
-local _INPUT_DEFINE = require("engine.input.inputdefine")
 local _InputDevice = require("engine.input.inputdevice")
 
 ---@class Engine.Input.Joystick : Engine.Input.InputDevice
@@ -107,18 +106,18 @@ end
 ---@param mapping Engine.Input.InputMapping
 function _InputJoystick:AddMapping(mapping)
 	self._mappings[#self._mappings + 1] = mapping
-	if mapping.event.type == _INPUT_DEFINE.EVENT_TYPE.AXIS then
-		if mapping.control.type == _INPUT_DEFINE.CONTROL_TYPE.AXIS then
+	if mapping.event.type == EInput.EVENT_TYPE.AXIS then
+		if mapping.control.type == EInput.CONTROL_TYPE.AXIS then
 			self._axisToAxisEvent[mapping.control.code] = mapping.event.name
 		else
 			LOG.Error("InputJoystick, the mapping of button to axisEvent is not supported.")
 		end
-	elseif mapping.event.type == _INPUT_DEFINE.EVENT_TYPE.ACTION then
-		if mapping.control.type == _INPUT_DEFINE.CONTROL_TYPE.BUTTON then
+	elseif mapping.event.type == EInput.EVENT_TYPE.ACTION then
+		if mapping.control.type == EInput.CONTROL_TYPE.BUTTON then
 			self._buttonToActionEvent[mapping.control.code] = mapping.event.name
-		elseif mapping.control.type == _INPUT_DEFINE.CONTROL_TYPE.AXIS_P then
+		elseif mapping.control.type == EInput.CONTROL_TYPE.AXIS_P then
 			self._axisToActionEvent.positive[mapping.control.code] = mapping.event.name
-		elseif mapping.control.type ==_INPUT_DEFINE.CONTROL_TYPE.AXIS_N then
+		elseif mapping.control.type ==EInput.CONTROL_TYPE.AXIS_N then
 			self._axisToActionEvent.negative[mapping.control.code] = mapping.event.name
 		end
 	end
@@ -126,13 +125,13 @@ end
 
 function _InputJoystick:Press(button)
 	_InputDevice.Press(self, button)
-	self._INPUT.HandleAction(self._buttonToActionEvent[button], _INPUT_DEFINE.STATE.PRESSED)
+	self._INPUT.HandleAction(self._buttonToActionEvent[button], EInput.STATE.PRESSED)
 	self._INPUT.SetMode(self._deviceType)
 end
 
 function _InputJoystick:Release(button)
 	_InputDevice.Release(self, button)
-	self._INPUT.HandleAction(self._buttonToActionEvent[button], _INPUT_DEFINE.STATE.RELEASED)
+	self._INPUT.HandleAction(self._buttonToActionEvent[button], EInput.STATE.RELEASED)
 	self._INPUT.SetMode(self._deviceType)
 end
 
@@ -140,18 +139,18 @@ function _InputJoystick:OnAxis(axis, newValue)
 	-- translate axis variation to action
 	if newValue > self._axisState[axis] then
 		if newValue > _DEADBAND and self._axisState[axis] < _DEADBAND then -- positive axis away
-			self._INPUT.HandleAction(self._axisToActionEvent.positive[axis], _INPUT_DEFINE.STATE.PRESSED)
+			self._INPUT.HandleAction(self._axisToActionEvent.positive[axis], EInput.STATE.PRESSED)
 		end
 		if newValue > -_DEADBAND and self._axisState[axis] < -_DEADBAND then -- negative axis return
-			self._INPUT.HandleAction(self._axisToActionEvent.negative[axis], _INPUT_DEFINE.STATE.RELEASED)
+			self._INPUT.HandleAction(self._axisToActionEvent.negative[axis], EInput.STATE.RELEASED)
 		end
 	end
 	if newValue < self._axisState[axis] then
 		if newValue < _DEADBAND and self._axisState[axis] > _DEADBAND then -- positive axis return
-			self._INPUT.HandleAction(self._axisToActionEvent.positive[axis], _INPUT_DEFINE.STATE.RELEASED)
+			self._INPUT.HandleAction(self._axisToActionEvent.positive[axis], EInput.STATE.RELEASED)
 		end
 		if newValue < -_DEADBAND and self._axisState[axis] > -_DEADBAND then -- negative axis away
-			self._INPUT.HandleAction(self._axisToActionEvent.negative[axis], _INPUT_DEFINE.STATE.PRESSED)
+			self._INPUT.HandleAction(self._axisToActionEvent.negative[axis], EInput.STATE.PRESSED)
 		end
 	end
 

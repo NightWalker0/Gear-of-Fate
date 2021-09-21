@@ -86,18 +86,15 @@ end
 function _Sprite:SetImage(image)
 	if image == nil then
 		self._image = _RESOURCE.nullImg
-	else
-		if image == self._image then
-			return
-		end
-		if type(image) == "string" then
-			self._image = _RESOURCE.LoadImage(image)
-		else
-			self._image = image
-		end
+		return
 	end
+
+	if image == self._image then
+		return
+	end
+
+	self._image = type(image) == "string" and _RESOURCE.LoadImage(image) or image
 	self:SetQuad(0, 0, self._image:getDimensions())
-	self._rect:SetSize(self._image:getDimensions())
 end
 
 ---@param x number @ drawing area x
