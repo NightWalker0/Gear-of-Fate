@@ -12,12 +12,19 @@ local _Timer = require("utils.timer")
 local _Base = require("entity.component.base")
 
 ---@class Entity.Component.Fighter : Entity.Component.Base
----@field protected _mark Entity
+---@field protected _aura Entity
 ---@field protected _deathFlashTimer Utils.Timer
 local _Fighter = require("core.class")(_Base)
 
+EFighterType = {
+    LocalPlayer = 1,
+    OtherPlayer = 2,
+    Elite = 3, --SpecialMonster
+    Lord = 4, --BossMonster
+}
+
 local _auras = {
-    player = _RESMGR.LoadEntityData("effect/common/aura/player"),
+    [EFighterType.LocalPlayer] = _RESMGR.LoadEntityData("effect/common/aura/player"),
 }
 
 local _deathEffectData = {
@@ -112,15 +119,15 @@ function _Fighter:Reborn()
     self._entity.state:SetState("stay")
 end
 
----@param key string
-function _Fighter:SetMark(key)
-    if self._mark then
-        self._mark.identity:StartDestroy()
-        self._mark = nil
+---@param fighterType int
+function _Fighter:SetType(fighterType)
+    if self._aura then
+        self._aura.identity:StartDestroy()
+        self._aura = nil
     end
 
-    if key then
-        self._mark = _FACTORY.NewEntity(_auras[key], { master = self._entity})
+    if fighterType then
+        self._aura = _FACTORY.NewEntity(_auras[fighterType], { master = self._entity})
     end
 end
 

@@ -1,0 +1,17 @@
+return {
+    scene = "lorien/proto",
+    controller = "lorien1", --system/world/levelcontroller/xxx
+    enemy = {
+        --[worldPhase]={enemyConfigs}
+        [1] = {
+            --name, x, y, direction
+            --{"character/swordman", 473, 460, 1},
+            {"monster/goblinthrower", 465, 431, -1},
+            {"monster/goblinthrower", 536, 556, -1},
+            {"monster/tau/shauta", 890, 460, 1},
+        }
+    },
+    npc = {
+        --[1] = {},
+    }
+}

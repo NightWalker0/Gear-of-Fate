@@ -19,7 +19,7 @@ local _Navigation = require("system.navigation.navigation")
 local _Movement = require("entity.component.movement")
 local _Vector2 = require("utils.vector2")
 
----@class SCENEMGR
+---@class System.SceneMgr
 ---@field protected _layers table<string, Engine.Graphics.Drawable.Layer|Engine.Graphics.Drawable.Sprite>
 local _SCENEMGR = {
 	_mode = "game", -- game|editor

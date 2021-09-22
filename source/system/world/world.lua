@@ -10,21 +10,31 @@
 ---@field public entityMgr System.EntityManager
 ---@field public playerMgr System.PlayerManager
 ---@field public eventMgr System.EventManager
+---@field public sceneMgr System.SceneMgr
 local _World = require("core.class")()
 
---EWorldState = {
---	LoadLevel = 1,
---	InLevel = 2,
---}
+---@class WorldData
+---@field public name string
+---@field public levelIds table<int, int>
+local WorldData = {}
 
-function _World:Ctor(levelIds)
-	self.levelIds = levelIds
+EWorldType = {
+	Town = 1,
+	Dungeon = 2,
+}
+
+---@param data WorldData
+function _World:Ctor(data)
+	self.name = data.name
+	self.levelIds = data.levelIds
 	self.levelMap = {}
+	self.currentLevel = nil
+	self.phase = 1
 
 	self.entityMgr = nil
 	self.playerMgr = nil
 	self.eventMgr = nil
-	self.currentLevel = nil
+
 	self.rate = 1.0
 end
 
@@ -38,7 +48,6 @@ end
 
 function _World:Update(dt)
 	self.entityMgr:Update(dt * self.rate)
-	--switch process update of current world state
 end
 
 function _World:Exit()
@@ -54,14 +63,6 @@ function _World:SwitchLevel(levelId)
 	self.currentLevel:Enter()
 	collectgarbage()
 end
-
---function _World:ChangeState(key)
---	self.state = key
---	--switch process new state enter and old state exit
---	if key == EWorldState.LoadLevel then
---		 self:LoadLevel()
---	end
---end
 
 function _World:LoadLevel(levelId)
 	local level

@@ -1,0 +1,9 @@
+return {
+    [1] = {
+        name = "洛兰",
+        type = 2, --1:Town, 2:Dungeon
+        levelStart = 1001,
+        levelDir = "lorien",
+        levelIds = {1001,},
+    },
+}

@@ -35,7 +35,7 @@ function _PLAYERMGR.SetLocalPlayer(player)
         return 
     end
 
-    player.fighter:SetMark("player")
+    player.fighter:SetType(EFighterType.LocalPlayer)
     player.aic.enable = false
     player.identity.dontDestroyOnLoadScene = true
     
@@ -44,7 +44,7 @@ function _PLAYERMGR.SetLocalPlayer(player)
         this._localPlayer.identity.dontDestroyOnLoadScene = true
         if not this._localPlayer.fighter.isDead then
             local auraType = (player.identity.camp == this._localPlayer.identity.camp) and "partner" or nil
-            this._localPlayer.fighter:SetMark(auraType)
+            this._localPlayer.fighter:SetType(auraType)
         end
     end
     
